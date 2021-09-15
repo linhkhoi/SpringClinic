@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache
+            Software Foundation//DTD Tiles Configuration 3.0//EN"
+            "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <definition name="baseLayout" template="/WEB-INF/layout/base.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+        <put-attribute name="content" value="" />
+        <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
+    </definition>
+    <definition name="index" extends="baseLayout">
+        <put-attribute name="title" value="Trang chủ" />
+        <put-attribute name="content" value="/WEB-INF/jsp/index.jsp" />
+    </definition>
+    <definition name="register" extends="baseLayout">
+        <put-attribute name="title" value="Đăng ký" />
+        <put-attribute name="content" value="/WEB-INF/jsp/register.jsp" />
+    </definition>
+    <definition name="login" extends="baseLayout">
+        <put-attribute name="title" value="Đăng nhập" />
+        <put-attribute name="content" value="/WEB-INF/jsp/login.jsp" />
+    </definition>
+    <definition name="sick" extends="baseLayout">
+        <put-attribute name="title" value="Bệnh" />
+        <put-attribute name="content" value="/WEB-INF/admin/sick.jsp" />
+    </definition>
+    <definition name="medicine" extends="baseLayout">
+        <put-attribute name="title" value="Thuốc" />
+        <put-attribute name="content" value="/WEB-INF/admin/medicine.jsp" />
+    </definition>
+    <definition name="userAdmin" extends="baseLayout">
+        <put-attribute name="title" value="Người dùng" />
+        <put-attribute name="content" value="/WEB-INF/admin/user.jsp" />
+    </definition>
+    <definition name="doctor" extends="baseLayout">
+        <put-attribute name="title" value="Bác sĩ" />
+        <put-attribute name="content" value="/WEB-INF/admin/doctor.jsp" />
+    </definition>
+    <definition name="nurse" extends="baseLayout">
+        <put-attribute name="title" value="Y tá" />
+        <put-attribute name="content" value="/WEB-INF/admin/nurse.jsp" />
+    </definition>
+    <definition name="patient" extends="baseLayout">
+        <put-attribute name="title" value="Bệnh nhân" />
+        <put-attribute name="content" value="/WEB-INF/admin/patient.jsp" />
+    </definition>
+    <definition name="appointment" extends="baseLayout">
+        <put-attribute name="title" value="Phiếu hẹn" />
+        <put-attribute name="content" value="/WEB-INF/admin/appointment.jsp" />
+    </definition>
+    <definition name="prescription" extends="baseLayout">
+        <put-attribute name="title" value="Toa thuốc" />
+        <put-attribute name="content" value="/WEB-INF/admin/prescription.jsp" />
+    </definition>
+    <definition name="prescriptionDetail" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết toa thuốc" />
+        <put-attribute name="content" value="/WEB-INF/admin/prescriptionDetail.jsp" />
+    </definition>
+    <definition name="order" extends="baseLayout">
+        <put-attribute name="title" value="Hoá đơn" />
+        <put-attribute name="content" value="/WEB-INF/admin/order.jsp" />
+    </definition>
+    <definition name="scheduleDoctor" extends="baseLayout">
+        <put-attribute name="title" value="Lịch trực bác sĩ" />
+        <put-attribute name="content" value="/WEB-INF/admin/scheduleDoctor.jsp" />
+    </definition>
+    <definition name="scheduleNurse" extends="baseLayout">
+        <put-attribute name="title" value="Lịch trực y tá" />
+        <put-attribute name="content" value="/WEB-INF/admin/scheduleNurse.jsp" />
+    </definition>
+    <definition name="medicalRecord" extends="baseLayout">
+        <put-attribute name="title" value="Hồ sơ khám bệnh" />
+        <put-attribute name="content" value="/WEB-INF/admin/medicalRecord.jsp" />
+    </definition>
+    <definition name="sickEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý bệnh" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/sickEdit.jsp" />
+    </definition>
+    <definition name="appointmentEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý phiếu hẹn" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/appointmentEdit.jsp" />
+    </definition>
+    <definition name="doctorEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý bác sĩ" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/doctorEdit.jsp" />
+    </definition>
+    <definition name="nurseEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý y tá" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/nurseEdit.jsp" />
+    </definition>
+    <definition name="medicineEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý thuốc" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/medicineEdit.jsp" />
+    </definition>
+    <definition name="medicalRecordEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý hồ sơ bệnh" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/medicalRecordEdit.jsp" />
+    </definition>
+    <definition name="orderEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý hoá đơn" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/orderEdit.jsp" />
+    </definition>
+    <definition name="patientEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý bệnh nhân" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/patientEdit.jsp" />
+    </definition>
+    <definition name="prescriptionEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý toa thuốc" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/prescriptionEdit.jsp" />
+    </definition>
+    <definition name="prescriptionDetailEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý thuốc" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/prescriptionDetailEdit.jsp" />
+    </definition>
+    <definition name="scheduleDoctorEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý lịch trực bác sĩ" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/scheduleDoctorEdit.jsp" />
+    </definition>
+    <definition name="scheduleNurseEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý lịch trực y tá" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/scheduleNurseEdit.jsp" />
+    </definition>
+    <definition name="userEdit" extends="baseLayout">
+        <put-attribute name="title" value="Quản lý người dùng" />
+        <put-attribute name="content" value="/WEB-INF/admin/edit/userEdit.jsp" />
+    </definition>
+    <definition name="bookAppointment" extends="baseLayout">
+        <put-attribute name="title" value="Đặt lịch khám" />
+        <put-attribute name="content" value="/WEB-INF/jsp/bookAppointment.jsp" />
+    </definition>
+    <definition name="historyPatient" extends="baseLayout">
+        <put-attribute name="title" value="Lịch sử bệnh nhân" />
+        <put-attribute name="content" value="/WEB-INF/doctor/historyPatient.jsp" />
+    </definition>
+    <definition name="patientDetail" extends="baseLayout">
+        <put-attribute name="title" value="Lịch sử bệnh nhân" />
+        <put-attribute name="content" value="/WEB-INF/doctor/patientDetail.jsp" />
+    </definition>
+    <definition name="patientHistoryDetail" extends="baseLayout">
+        <put-attribute name="title" value="Lịch sử bệnh nhân" />
+        <put-attribute name="content" value="/WEB-INF/doctor/patientHistoryDetail.jsp" />
+    </definition>
+    <definition name="chartCountPatientByYear" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê số lượng bệnh nhân" />
+        <put-attribute name="content" value="/WEB-INF/admin/report/chartCountPatientByYear.jsp" />
+    </definition>
+    <definition name="chartSalesOfMonth" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê doanh thu theo tháng" />
+        <put-attribute name="content" value="/WEB-INF/admin/report/chartSalesOfMonth.jsp" />
+    </definition>
+    <definition name="chartSalesOfQuarter" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê doanh thu theo quý" />
+        <put-attribute name="content" value="/WEB-INF/admin/report/chartSalesOfQuarter.jsp" />
+    </definition>
+    <definition name="chartSalesOfYear" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê doanh thu theo năm" />
+        <put-attribute name="content" value="/WEB-INF/admin/report/chartSalesOfYear.jsp" />
+    </definition>
+    <definition name="addPrescription" extends="baseLayout">
+        <put-attribute name="title" value="Thêm toa thuốc" />
+        <put-attribute name="content" value="/WEB-INF/doctor/addPrescription.jsp" />
+    </definition>
+    <definition name="addOrder" extends="baseLayout">
+        <put-attribute name="title" value="Thêm hoá đơn" />
+        <put-attribute name="content" value="/WEB-INF/nurse/addOrder.jsp" />
+    </definition>
+    <definition name="checkOrder" extends="baseLayout">
+        <put-attribute name="title" value="Kiểm tra hoá đơn" />
+        <put-attribute name="content" value="/WEB-INF/nurse/checkOrder.jsp" />
+    </definition>
+    <definition name="confirmAppointment" extends="baseLayout">
+        <put-attribute name="title" value="Xác nhận phiếu khám" />
+        <put-attribute name="content" value="/WEB-INF/nurse/confirmAppointment.jsp" />
+    </definition>
+    <definition name="cart" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết toa" />
+        <put-attribute name="content" value="/WEB-INF/doctor/cart.jsp" />
+    </definition>
+    <definition name="addMedical" extends="baseLayout">
+        <put-attribute name="title" value="Thêm hồ sơ bệnh" />
+        <put-attribute name="content" value="/WEB-INF/doctor/addMedical.jsp" />
+    </definition>
+</tiles-definitions>
