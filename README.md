@@ -15,7 +15,7 @@
 
 >Đề tài: **Xây dựng hệ thống quản lý phòng mạch tư dựa trên Spring Framework**
 
->## Yêu cầu bài tập lớn
+>## Yêu cầu đồ án
 
 - Xây dựng đồ án bằng **Java, MySQL, JSP, JS, CSS**
 - Có thể sử dụng các framework Java có sẵn: **Spring**
