@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.hlk.utils.GoogleUtils;
 import com.hlk.utils.RestFB;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -137,8 +138,10 @@ public class HomeController {
     }
 
     @GetMapping(path = "/book-appointment")
-    public String bookAppointment(Model model) {
+    public String bookAppointment(Model model, @RequestParam(required = false) Map<String, String> params) {
+        String msg = params.getOrDefault("msg", "");
         model.addAttribute("appointment", new Appointment());
+        model.addAttribute("msg", msg);
         return "bookAppointment";
     }
     
@@ -146,40 +149,42 @@ public class HomeController {
     @PostMapping(path = "/book-appointment")
     public String bookingg1(Model model,  @ModelAttribute(value="appointment") @Valid Appointment appointment,BindingResult err) throws ParseException {
         String errMgs = null;
-        System.out.println("-==============");
+        
         Calendar c1 = Calendar.getInstance();
         c1.setTime(appointment.getMeetDate());
         
-        String string1 = "09:00:00";
-        Date time1 = new SimpleDateFormat("HH:mm:ss").parse(string1);
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.setTime(time1);
-        calendar1.add(Calendar.DATE, 1);
+        Calendar nineHours = Calendar.getInstance();
+        nineHours.setTime(new SimpleDateFormat("HH:mm:ss").parse("09:00:00"));
+        nineHours.add(Calendar.DATE, 1);
         
-        String string2 = "18:00:00";
-        Date time2 = new SimpleDateFormat("HH:mm:ss").parse(string2);
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.setTime(time2);
-        calendar2.add(Calendar.DATE, 1);
+        Calendar eighteenHours = Calendar.getInstance();
+        eighteenHours.setTime(new SimpleDateFormat("HH:mm:ss").parse("18:00:00"));
+        eighteenHours.add(Calendar.DATE, 1);
         
-        Date d = appointment.getMeetTime();
-        Calendar calendar3 = Calendar.getInstance();
-        calendar3.setTime(d);
-        calendar3.add(Calendar.DATE, 1);
+        Calendar twenoneHours = Calendar.getInstance();
+        twenoneHours.setTime(new SimpleDateFormat("HH:mm:ss").parse("21:00:00"));
+        twenoneHours.add(Calendar.DATE, 1);
         
-        Date x = calendar3.getTime();
-        if (x.after(calendar2.getTime()) && ((c1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) 
+        Calendar meeTime = Calendar.getInstance();
+        meeTime.setTime(appointment.getMeetTime());
+        meeTime.add(Calendar.DATE, 1);
+        
+        Date checkTime = meeTime.getTime();
+        if (checkTime.after(nineHours.getTime()) && checkTime.before(eighteenHours.getTime()) && ((c1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) 
             || (Calendar.DAY_OF_WEEK != Calendar.SUNDAY))) {
-            appointment.setExpense(new BigDecimal(150000));
-        } else if (x.after(calendar2.getTime()) && ((c1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) 
+            appointment.setExpense(new BigDecimal(100000));
+        } else if (checkTime.after(eighteenHours.getTime()) && checkTime.before(twenoneHours.getTime()) && ((c1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) 
             || (Calendar.DAY_OF_WEEK != Calendar.SUNDAY))){
             appointment.setExpense(new BigDecimal(150000));
-        } else if (x.after(calendar1.getTime()) && ((c1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) 
+        } else if (checkTime.after(nineHours.getTime())&& checkTime.before(eighteenHours.getTime()) && ((c1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) 
             || (Calendar.DAY_OF_WEEK == Calendar.SUNDAY))){
             appointment.setExpense(new BigDecimal(150000));
-        } else if (x.after(calendar2.getTime()) && ((c1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) 
+        } else if (checkTime.after(eighteenHours.getTime()) && checkTime.before(twenoneHours.getTime()) && ((c1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) 
             || (Calendar.DAY_OF_WEEK == Calendar.SUNDAY))){
             appointment.setExpense(new BigDecimal(150000));
+        } else {
+            errMgs = "Giờ không đúng quy định";
+            return "redirect:/book-appointment/?msg="+errMgs;
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User u = this.userDetailsService.getUserByUsername(authentication.getName());
@@ -251,8 +256,6 @@ public class HomeController {
     }
     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null,
         userDetail.getAuthorities());
-    System.out.println("===============================");
-      System.out.println(authentication.getName());
     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
     SecurityContextHolder.getContext().setAuthentication(authentication);
     return "redirect:/";

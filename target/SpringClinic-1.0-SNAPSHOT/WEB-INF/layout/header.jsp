@@ -81,6 +81,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value="/nurse/add-order" />"><spring:message code="label.addOrder" /></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/nurse/see-order-list" />"><spring:message code="order.list" /></a>
+                </li>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_PATIENT')">
                 <li class="nav-item">
@@ -101,8 +104,11 @@
                 </li>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/" />">${pageContext.request.userPrincipal.name}</a>
+                <li class="nav-item p-">
+                    <a class="nav-link" href="#">
+                     <img src="${user.avatar}" alt="..." height="36">
+                    ${user.firstName} ${user.lastName}
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<c:url value="/logout" />">Logout</a>

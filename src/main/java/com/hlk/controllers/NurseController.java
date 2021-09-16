@@ -197,6 +197,12 @@ public class NurseController {
         
     }
     
-
-
+    @RequestMapping(value = "/nurse/see-order-list", method = RequestMethod.GET)
+    public String seeOrderList(Model model, @RequestParam(required = false) Map<String, String> params) {
+        String kw = params.getOrDefault("kw","");
+        model.addAttribute("orders", this.orderService.getOrders(kw));
+        return "order";
+    }
+    
+    
 }

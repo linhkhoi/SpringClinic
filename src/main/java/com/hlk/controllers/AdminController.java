@@ -5,6 +5,7 @@
  */
 package com.hlk.controllers;
 
+import com.hlk.model.User;
 import com.hlk.service.AppointmentService;
 import com.hlk.service.DoctorService;
 import com.hlk.service.MedicalRecordService;
@@ -20,6 +21,8 @@ import com.hlk.service.SickService;
 import com.hlk.service.UserService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -84,6 +87,9 @@ public class AdminController {
        model.addAttribute("doctorcommom", this.doctorService.getDoctors(""));
        model.addAttribute("nursecommom", this.nurseService.getNurses(""));
        model.addAttribute("appointmentcommom", this.appointmentService.getAppointments(""));
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User u = this.userService.getUserByUsername(authentication.getName());
+        model.addAttribute("user", u);
     }
     
     @RequestMapping(value = "/admin/user-admin")

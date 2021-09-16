@@ -48,6 +48,13 @@
   </table>
 </div>
 <link href="<c:url value="/css/index.css"/>" rel="stylesheet" />
+
+
+<c:if test="${msg != ''}">
+    <div class="alert alert-danger">
+        <spring:message code="label.bookError" />
+    </div>
+</c:if>
 <div class="container px-5 py-5 mx-auto">
     <div class="form bg-white">
         <div class="note">
