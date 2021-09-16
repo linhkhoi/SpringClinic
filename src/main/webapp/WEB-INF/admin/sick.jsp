@@ -40,7 +40,7 @@
   </thead>
   <tbody>
       <c:forEach var="s" items="${sicks}">
-          <tr>
+          <tr id="sick${s.id}">
       <th scope="row">${s.id}</th>
       <td>${s.name}</td>
       <td>${s.symptom}</td>
@@ -48,7 +48,7 @@
         <a href="<c:url value="/admin/sick-edit/?sickId=${s.id}" />" class="btn btn-info btn-sm px-3">Sửa</a>
       </td>
       <td>
-        <a href="" class="btn btn-danger btn-sm px-3">Xoá</a>
+        <a href="javascript:;" class="btn btn-danger btn-sm px-3" onclick="deleteSick(${s.id})">Xoá</a>
       </td>
     </tr>
       </c:forEach>
@@ -56,3 +56,4 @@
   </tbody>
 </table>
 </div>
+        <script src="<c:url value="/js/main.js" />"></script>
