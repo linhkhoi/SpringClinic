@@ -67,5 +67,15 @@ public class UserServiceImpl implements UserService{
     public User getUserByUsername(String username) {
         return this.userRepository.getUserByUsername(username);
     }
+
+    @Override
+    public List<User> getUsers(String kw, int page) {
+        return this.userRepository.getUsers(kw, page);
+    }
+
+    @Override
+    public long countUser(String kw) {
+        return this.userRepository.countUser(kw);
+    }
     
 }

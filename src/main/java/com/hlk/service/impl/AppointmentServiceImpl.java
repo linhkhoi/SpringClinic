@@ -9,6 +9,7 @@ import com.hlk.model.Appointment;
 import com.hlk.repository.AppointmentRepository;
 import com.hlk.service.AppointmentService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,9 +93,42 @@ public class AppointmentServiceImpl implements AppointmentService{
         return this.appointmentRepository.updateNurseAppointment(appointmentId, nurseId);
     }
 
+   
+
     @Override
-    public List<Appointment> getAppointmentByPatient(int patientId) {
-        return this.appointmentRepository.getAppointmentByPatient(patientId);
+    public long countAppointmentForBook(int patientId) {
+        return this.appointmentRepository.countAppointmentForBook(patientId);
+    }
+
+    @Override
+    public List<Appointment> getAppointments(String kw,Date fromDate, Date toDate, int page) {
+        return this.appointmentRepository.getAppointments(kw, fromDate, toDate, page);
+    }
+
+
+    @Override
+    public long countAppointmentByPatient(int patientId,Date fromDate, Date toDate) {
+        return this.appointmentRepository.countAppointmentByPatient(patientId,fromDate,toDate);
+    }
+
+    @Override
+    public long countAppointmentForPatient(int patientId,Date fromDate, Date toDate) {
+        return this.appointmentRepository.countAppointmentForPatient(patientId,fromDate,toDate);
+    }
+
+    @Override
+    public List<Appointment> getAppointmentByPatient(int patientId,Date fromDate, Date toDate, int page) {
+        return this.appointmentRepository.getAppointmentByPatient(patientId, fromDate, toDate, page);
+    }
+
+    @Override
+    public List<Appointment> getAppointmentForPatient(int patientId,Date fromDate, Date toDate, int page) {
+        return this.appointmentRepository.getAppointmentForPatient(patientId, fromDate, toDate, page);
+    }
+
+    @Override
+    public long countAppointment(String kw,Date fromDate, Date toDate) {
+        return this.appointmentRepository.countAppointment(kw,fromDate,toDate);
     }
     
 }

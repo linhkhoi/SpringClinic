@@ -62,27 +62,42 @@
                         <spring:message code="chart.statistic" />
                     </a>
                     <div class="dropdown-menu sm-menu mt-0">
-                        <a class="dropdown-item" href="<c:url value="/admin/chart-count-patient" />"><spring:message code="chart.statisticPatient" /></a>
-                        <a class="dropdown-item" href="<c:url value="/admin/chart-sales-month" />"><spring:message code="chart.statisticSalesMonth" /></a>
-                        <a class="dropdown-item" href="<c:url value="/admin/chart-sales-quarter" />"><spring:message code="chart.statisticSalesQuarter" /></a>
-                        <a class="dropdown-item" href="<c:url value="/admin/chart-sales-year" />"><spring:message code="chart.statisticSalesYear" /></a>
+                        <a class="dropdown-item" href="<c:url value="/admin/chart-count-patient/" />"><spring:message code="chart.statisticPatient" /></a>
+                        <a class="dropdown-item" href="<c:url value="/admin/chart-sales-month/" />"><spring:message code="chart.statisticSalesMonth" /></a>
+                        <a class="dropdown-item" href="<c:url value="/admin/chart-sales-quarter/" />"><spring:message code="chart.statisticSalesQuarter" /></a>
+                        <a class="dropdown-item" href="<c:url value="/admin/chart-sales-year/" />"><spring:message code="chart.statisticSalesYear" /></a>
                     </div>
                 </li>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_DOCTOR')">
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/doctor/history-patient" />"><spring:message code="label.historyPatient" /></a>
+                    <a class="nav-link" href="<c:url value="/doctor/history-patient/" />"><spring:message code="label.historyPatient" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/doctor/schedule-doctor/" />"><spring:message code="label.scheduleDoctor" /></a>
                 </li>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_NURSE')">
-                <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/nurse/confirm-appointment" />"><spring:message code="label.confirmAppointment" /></a>
+                <li class="nav-item dropdown dmenu ">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        <spring:message code="label.appointment" />
+                    </a>
+                    <div class="dropdown-menu sm-menu mt-0">
+                        <a class="dropdown-item" href="<c:url value="/nurse/list-appointment/" />"><spring:message code="appoint.list" /></a>
+                        <a class="dropdown-item" href="<c:url value="/nurse/confirm-appointment/" />"><spring:message code="label.confirmAppointment" /></a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/nurse/add-order" />"><spring:message code="label.addOrder" /></a>
+                    <a class="nav-link" href=""><spring:message code="" /></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/nurse/see-order-list" />"><spring:message code="order.list" /></a>
+                    <a class="nav-link" href="<c:url value="/nurse/add-order/" />"><spring:message code="label.addOrder" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/nurse/see-order-list/" />"><spring:message code="order.list" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/nurse/schedule-nurse/" />"><spring:message code="label.scheduleNurse" /></a>
                 </li>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_PATIENT')">
@@ -90,7 +105,13 @@
                     <a class="nav-link" href="<c:url value="/" />"><spring:message code="label.homePage" /></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/book-appointment" />"><spring:message code="label.priceList" /></a>
+                    <a class="nav-link" href="<c:url value="/book-appointment/" />"><spring:message code="label.priceList" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/list-appointment/" />"><spring:message code="label.appointment" /></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<c:url value="/medical-record/" />"><spring:message code="label.medicalRecord" /></a>
                 </li>
             </sec:authorize>
 
@@ -105,9 +126,9 @@
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.name != null}">
                 <li class="nav-item p-">
-                    <a class="nav-link" href="#">
-                     <img src="${user.avatar}" alt="..." height="36">
-                    ${user.firstName} ${user.lastName}
+                    <a class="nav-link" href="<c:url value="/profile" />">
+                     <img src="${userInfo.avatar}" alt="..." height="36">
+                    ${userInfo.firstName} ${userInfo.lastName}
                     </a>
                 </li>
                 <li class="nav-item">

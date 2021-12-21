@@ -6,6 +6,7 @@
 package com.hlk.controllers;
 
 import com.hlk.model.PrescriptionDetail;
+import com.hlk.service.MedicineService;
 import com.hlk.service.PrescriptionDetailService;
 import java.io.UnsupportedEncodingException;
 import javax.validation.Valid;
@@ -29,6 +30,9 @@ public class PrescriptionDetailController {
     @Autowired
     private PrescriptionDetailService prescriptionDetailService;
     
+    @Autowired
+    private MedicineService medicineService;
+    
     @GetMapping(value ="/")
     public String addOrUpdateView(Model model,
             @RequestParam(name = "predeId", defaultValue = "0") int prescriptionDetailId) {
@@ -36,17 +40,20 @@ public class PrescriptionDetailController {
             model.addAttribute("prescriptionDetail", this.prescriptionDetailService.getPrescriptionDetailById(prescriptionDetailId));
         else // thêm
             model.addAttribute("prescriptionDetail", new PrescriptionDetail());
+        model.addAttribute("medicinecommom", this.medicineService.getMedicines(""));
         return "prescriptionDetailEdit";
     }
     
     @PostMapping(value ="/")
     public String addOrUpdatePrescriptionDetail(Model model, @ModelAttribute(value="prescriptionDetail") @Valid PrescriptionDetail prescriptionDetail,BindingResult err) throws UnsupportedEncodingException {
         if (err.hasErrors()) {
+            model.addAttribute("medicinecommom", this.medicineService.getMedicines(""));
             return "prescriptionDetailEdit";
         }
         
         if (!this.prescriptionDetailService.addOrUpdatePrescriptionDetail(prescriptionDetail)) {
             model.addAttribute("errMsg", "Hệ thóng đang có lỗi! Vui lòng quay lại sau!");
+            model.addAttribute("medicinecommom", this.medicineService.getMedicines(""));
             return "prescriptionDetailEdit";
         }
         

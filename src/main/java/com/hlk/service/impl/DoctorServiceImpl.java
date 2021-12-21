@@ -41,10 +41,16 @@ public class DoctorServiceImpl implements DoctorService{
     public boolean addOrUpdateDoctor(Doctor doctor) {
         return this.doctorRepository.addOrUpdateDoctor(doctor);
     }
-    
-     @Override
-    public List<Object[]> getPatientListById(int patientId) {
-        return this.doctorRepository.getPatientListById(patientId);
+
+    @Override
+    public List<Doctor> getDoctors(String kw, int page) {
+        return this.doctorRepository.getDoctors(kw, page);
     }
+
+    @Override
+    public long countDoctor(String kw) {
+        return this.doctorRepository.countDoctor(kw);
+    }
+    
     
 }

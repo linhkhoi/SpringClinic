@@ -185,24 +185,6 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
         
         return v;
     }
-    
-//    @Bean
-//    public JavaMailSender getJavaMailSender() {
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.gmail.com");
-//        mailSender.setPort(587);
-// 
-//        mailSender.setUsername("tranminh324879@gmail.com");
-//        mailSender.setPassword("linhkhoi18");
-// 
-//        Properties props = mailSender.getJavaMailProperties();
-//        props.put("mail.transport.protocol", "smtp");
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.from.email", "tranminh324879@gmail.com");
-//        
-//        return mailSender;
-//    }
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

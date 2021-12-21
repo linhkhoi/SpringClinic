@@ -11,7 +11,7 @@
         <h1 class="text-center text-danger">
             <spring:message code="mere.title" />
         </h1>
-        <h1>${medicalRecord.patient.job}</h1>
+        <h1>${medicalRecord.patient.user.firstName} ${medicalRecord.patient.user.lastName}</h1>
         <c:url value="/doctor/add-medical" var="action" />
             <form:form method="post" action="${action}" modelAttribute="medicalRecord" acceptCharset="UTF-8">
             <div class="form-group">

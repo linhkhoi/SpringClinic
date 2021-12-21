@@ -48,11 +48,24 @@
   </table>
 </div>
 <link href="<c:url value="/css/index.css"/>" rel="stylesheet" />
-
-
-<c:if test="${msg != ''}">
+<c:if test="${msg == 'null'}">
+    <div class="alert alert-danger">
+        <spring:message code="label.bookNullError" />
+    </div>
+</c:if>
+<c:if test="${msg == 'date'}">
+    <div class="alert alert-danger">
+        <spring:message code="label.bookDateError" />
+    </div>
+</c:if>
+<c:if test="${msg == 'time'}">
     <div class="alert alert-danger">
         <spring:message code="label.bookError" />
+    </div>
+</c:if>
+<c:if test="${msg == 'appointment'}">
+    <div class="alert alert-danger">
+        <spring:message code="label.bookAppointError" />
     </div>
 </c:if>
 <div class="container px-5 py-5 mx-auto">
@@ -72,7 +85,7 @@
                 </div>
                     <div class="col-md-6">
                     <div class="form-group">
-                        <label class=""><spring:message code="label.chooseDate" />: </label>
+                        <label class=""><spring:message code="label.chooseTime" />: </label>
                         <form:input id="meetTime" type="time" cssClass="rounded-pill border-2 px-3 py-2" path="meetTime" />
                     </div>
                 </div>

@@ -31,11 +31,11 @@
                 <form:hidden path="id" />
                 <c:if test="${sick.id > 0}">
                     <input type="submit" class="btn btn-warning" 
-                           value="<spring:message code="sick.update" />" />
+                           value="<spring:message code="label.update" />" />
                 </c:if>
                 <c:if test="${sick.id <= 0}">
                     <input type="submit" class="btn btn-warning" 
-                           value="<spring:message code="sick.add" />" />
+                           value="<spring:message code="label.add" />" />
                 </c:if>
             </div>
         </form:form>

@@ -42,6 +42,12 @@
                 </label>
                     <form:input id="schedule" type="date" cssClass="form-control date-picker" path="schedule" />
             </div>
+            <div class="form-group">
+                <label for="schedule">
+                    <spring:message code="schedoc.time" />
+                </label>
+                    <form:input id="timeDuty" type="time" cssClass="form-control date-picker" path="timeDuty" />
+            </div>
 
             
 

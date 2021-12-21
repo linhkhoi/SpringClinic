@@ -36,7 +36,6 @@ public class User implements Serializable{
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name = "id")
     private int id;
     
     private String password;

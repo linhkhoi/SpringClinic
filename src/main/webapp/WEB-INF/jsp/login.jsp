@@ -24,8 +24,8 @@
                 <div class="">
                     <c:url value="/login" var="action" />
                     <div class="row justify-content-center my-auto">
-                    <form method="post" action="${action}" class="row justify-content-center my-auto">
-                    <div class="col-md-8 col-10 my-1">
+                    <form method="post" action="${action}" class="row justify-content-center my-auto mx-0">
+                    <div class="col-md-8 col-10 my-1 p-0">
                         <div class="row justify-content-center px-3 mb-3"> <img id="logo" src="<c:url value="/images/logo.png" />"> </div>
                         <h3 class="mb-5 text-center heading"><spring:message code="label.login" /></h3>
                         <div class="form-group mb-0"> <label class="form-control-label text-muted"><spring:message code="label.userName"/></label><input id="username" name="username" class="form-control px-4" /></div>

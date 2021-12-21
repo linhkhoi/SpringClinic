@@ -24,6 +24,29 @@
             <a href="<c:url value="/admin/user-edit/" />" class="btn btn-success"><spring:message code="label.add" /></a>
         </div>
     </div>
+        <div class="col-md-11">
+         <ul class="pagination">
+            <c:forEach begin="1" end="${Math.ceil(count/12)}" var="i">
+                <c:if test = "${page == i}">
+                    <c:if test="${param.kw != ''}">
+                         <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/admin/user-admin/"/>?kw=${param.kw}&page=${i}">${i}</a></li>
+                    </c:if>
+                    <c:if test="${param.kw == ''}">
+                        <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/admin/user-admin/"/>?page=${i}">${i}</a></li>
+                    </c:if>
+                   
+                </c:if>
+                <c:if test = "${page != i}">
+                    <c:if test="${param.kw != ''}">
+                        <li class="page-item"><a class="page-link mx-0" href="<c:url value="/admin/user-admin/"/>?kw=${param.kw}&page=${i}">${i}</a></li>
+                    </c:if>
+                    <c:if test="${param.kw == ''}">
+                       <li class="page-item"><a class="page-link mx-0" href="<c:url value="/admin/user-admin/"/>?page=${i}">${i}</a></li>
+                    </c:if>
+                </c:if>
+            </c:forEach>
+        </ul>
+        </div>
     <table class="table align-middle">
         <thead>
             <tr>

@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface UserRepository {
     List<User> getUsers(String kw);
+    List<User> getUsers(String kw,int page);
+    long countUser(String kw);
     User getUserById(int id);
     User getUserByUsername(String username);
     boolean deleteUser(int id);

@@ -33,11 +33,27 @@ public class ScheduleNurse {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date schedule;
     
+    @Column(name="time_duty")
+    @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
+    private Date timeDuty;
+    
     private String position;
     
     @ManyToOne
     @JoinColumn(name = "nurse_id")
     private Nurse nurse;
+
+    public Date getTimeDuty() {
+        return timeDuty;
+    }
+
+    public void setTimeDuty(Date timeDuty) {
+        this.timeDuty = timeDuty;
+    }
+    
+    
+    
 
     public int getId() {
         return id;

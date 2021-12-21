@@ -6,11 +6,13 @@
 package com.hlk.repository.impl;
 
 import com.hlk.model.Medicine;
+import com.hlk.model.PrescriptionDetail;
 import com.hlk.repository.MedicineRepository;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
@@ -106,14 +108,33 @@ public class MedicineRepositoryImpl implements  MedicineRepository{
     }
 
     @Override
-    public long countMedicine() {
+    public long countMedicine(String kw) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Long> query = builder.createQuery(Long.class);
         Root root = query.from(Medicine.class);
-        query.select(builder.count(root.get("id")));
-        
+        query = query.select(builder.count(root.get("id")));
+        if(!kw.isEmpty() && kw!=null){
+            Predicate p = builder.like(root.get("name").as(String.class),
+                    String.format("%%%s%%", kw));
+            query = query.where(p);
+        }
         Query q = session.createQuery(query);
         return Long.parseLong(q.getSingleResult().toString());
+    }
+
+    @Override
+    public List<Object[]> getMedicinesByPrescription(int preId) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> bQuery = builder.createQuery(Object[].class);
+        Root<PrescriptionDetail> bRoot = bQuery.from(PrescriptionDetail.class);
+        bQuery = bQuery.multiselect(bRoot.get("medicine"),bRoot.get("price"),bRoot.get("quantity"));
+        bQuery = bQuery.where(builder.equal(bRoot.get("prescription"), preId));
+        Query query1 = session.createQuery(bQuery);
+        List<Object[]> result1 = query1.getResultList();
+
+        
+        return result1;
     }
 }

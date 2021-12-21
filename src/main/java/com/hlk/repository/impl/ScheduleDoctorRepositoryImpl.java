@@ -7,6 +7,8 @@ package com.hlk.repository.impl;
 
 import com.hlk.model.ScheduleDoctor;
 import com.hlk.repository.ScheduleDoctorRepository;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -83,6 +85,85 @@ public class ScheduleDoctorRepositoryImpl implements ScheduleDoctorRepository{
         }
         
         return false;
+    }
+
+    @Override
+    public List<ScheduleDoctor> getScheduleDoctorByDoctor(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<ScheduleDoctor> query = builder.createQuery(ScheduleDoctor.class);
+        Root root = query.from(ScheduleDoctor.class);
+        query = query.select(root);
+        
+        query = query.where(builder.equal(root.get("doctor"), id));
+        
+        Query q = session.createQuery(query);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<ScheduleDoctor> getScheduleDoctorByDoctor(int id, Date fromDate, Date toDate, int page) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        CriteriaQuery<ScheduleDoctor> query = builder.createQuery(ScheduleDoctor.class);
+        Root root = query.from(ScheduleDoctor.class);
+        query = query.select(root);
+        
+        List<Predicate> predicates = new ArrayList<>();
+        
+        predicates.add(builder.equal(root.get("doctor"), id));
+    
+        
+        if(fromDate != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("schedule"), fromDate));
+        }
+        
+        if(toDate != null){
+            predicates.add(builder.lessThanOrEqualTo(root.get("schedule"), toDate));
+        }
+        
+        
+        query = query.where(predicates.toArray(new Predicate[] {}));
+
+        
+        Query q = session.createQuery(query);
+        
+       
+        int max = 12;
+        q.setMaxResults(max);
+        q.setFirstResult((page-1)*max);
+        return q.getResultList();
+    }
+
+    @Override
+    public long countSchedule(int id,Date fromDate, Date toDate) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        Root root = query.from(ScheduleDoctor.class);
+        query = query.select(builder.count(root.get("id")));
+        
+        List<Predicate> predicates = new ArrayList<>();
+        
+        predicates.add(builder.equal(root.get("doctor"), id));
+    
+        
+        if(fromDate != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("schedule"), fromDate));
+        }
+        
+        if(toDate != null){
+            predicates.add(builder.lessThanOrEqualTo(root.get("schedule"), toDate));
+        }
+        
+        
+        query = query.where(predicates.toArray(new Predicate[] {}));
+
+        
+        Query q = session.createQuery(query);
+       return Long.parseLong(q.getSingleResult().toString());
     }
     
 }

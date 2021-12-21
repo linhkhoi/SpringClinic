@@ -19,6 +19,9 @@ import com.hlk.service.ScheduleDoctorService;
 import com.hlk.service.ScheduleNurseService;
 import com.hlk.service.SickService;
 import com.hlk.service.UserService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -79,30 +82,29 @@ public class AdminController {
     
     @ModelAttribute
     public void commomAttr(Model model){
-       model.addAttribute("sickcommom", this.sickService.getSicks(""));
-       model.addAttribute("usercommom", this.userService.getUsers(""));
-       model.addAttribute("patientcommom", this.patientService.getPatients(""));
-       model.addAttribute("medicinecommom", this.medicineService.getMedicines(""));
-       model.addAttribute("prescriptioncommom", this.prescriptionService.getPrescriptions(""));
-       model.addAttribute("doctorcommom", this.doctorService.getDoctors(""));
-       model.addAttribute("nursecommom", this.nurseService.getNurses(""));
-       model.addAttribute("appointmentcommom", this.appointmentService.getAppointments(""));
+       
        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User u = this.userService.getUserByUsername(authentication.getName());
-        model.addAttribute("user", u);
+       User u = this.userService.getUserByUsername(authentication.getName());
+       model.addAttribute("userInfo", u);
     }
     
     @RequestMapping(value = "/admin/user-admin")
     public String userAdmin(Model model, @RequestParam(required = false) Map<String, String> params) {
         String kw = params.getOrDefault("kw","");
-        model.addAttribute("users", this.userService.getUsers(kw));
+        int page = Integer.parseInt(params.getOrDefault("page","1")) ;
+        model.addAttribute("count", this.userService.countUser(kw));
+        model.addAttribute("page", page);
+        model.addAttribute("users", this.userService.getUsers(kw,page));
         return "userAdmin";
     }
     
     @RequestMapping(value = "/admin/doctor")
     public String doctor(Model model, @RequestParam(required = false) Map<String, String> params) {
         String kw = params.getOrDefault("kw","");
-        model.addAttribute("doctors", this.doctorService.getDoctors(kw));
+        int page = Integer.parseInt(params.getOrDefault("page","1")) ;
+        model.addAttribute("count", this.doctorService.countDoctor(kw));
+        model.addAttribute("page", page);
+        model.addAttribute("doctors", this.doctorService.getDoctors(kw, page));
         return "doctor";
     }
     
@@ -116,7 +118,10 @@ public class AdminController {
     @RequestMapping(value = "/admin/patient")
     public String patient(Model model, @RequestParam(required = false) Map<String, String> params) {
         String kw = params.getOrDefault("kw","");
-        model.addAttribute("patients", this.patientService.getPatients(kw));
+        int page = Integer.parseInt(params.getOrDefault("page","1")) ;
+        model.addAttribute("count", this.medicineService.countMedicine(kw));
+        model.addAttribute("page", page);
+        model.addAttribute("patients", this.patientService.getPatients(kw,page));
         return "patient";
     }
     
@@ -132,7 +137,7 @@ public class AdminController {
     public String medicine(Model model, @RequestParam(required = false) Map<String, String> params) {
         String kw = params.getOrDefault("kw","");
         int page = Integer.parseInt(params.getOrDefault("page","1")) ;
-        model.addAttribute("count", this.medicineService.countMedicine());
+        model.addAttribute("count", this.medicineService.countMedicine(kw));
         model.addAttribute("page", page);
         model.addAttribute("medicines", this.medicineService.getMedicines(kw, page));
         return "medicine";
@@ -141,7 +146,26 @@ public class AdminController {
     @RequestMapping(value = "/admin/appointment")
     public String appointment(Model model, @RequestParam(required = false) Map<String, String> params) {
         String kw = params.getOrDefault("kw","");
-        model.addAttribute("appointments", this.appointmentService.getAppointments(kw));
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null,toDate = null;
+        try{
+            String from = params.getOrDefault("fromDate",null);
+            if(from != null){
+                fromDate = f.parse(from);
+            }
+            String to = params.getOrDefault("toDate",null);
+            if(to != null){
+                toDate = f.parse(to);
+        }
+        }catch(ParseException ex){
+            ex.printStackTrace();
+        }
+        
+        
+        int page = Integer.parseInt(params.getOrDefault("page","1")) ;
+        model.addAttribute("count", this.appointmentService.countAppointment(kw,fromDate,toDate));
+        model.addAttribute("page", page);
+        model.addAttribute("appointments", this.appointmentService.getAppointments(kw,fromDate,toDate,page));
         return "appointment";
     }
     

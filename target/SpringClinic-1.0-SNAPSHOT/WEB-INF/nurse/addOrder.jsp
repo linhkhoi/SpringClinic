@@ -40,7 +40,7 @@
       <th scope="row">${m.id}</th>
       <td>${m.createdDate}</td>
       <td><fmt:formatNumber type="number" maxFractionDigits="2" value="${m.totalPrice}"/></td>
-      <td>${m.appointment.id}</td>
+      <td>${m.appointment.patient.user.firstName}</td>
       <td class="">
         <a href="<c:url value="/nurse/check-order/?prescriptionId=${m.id}" />" class="btn btn-info btn-sm px-3"><spring:message code="label.add" /></a>
       </td>

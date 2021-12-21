@@ -8,6 +8,7 @@ package com.hlk.service;
 import com.hlk.model.Appointment;
 import com.hlk.model.Nurse;
 import com.hlk.model.Prescription;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,9 @@ public interface NurseService {
     Nurse getNurseById(int nurseId);
     boolean deleteNurse(int nurseId);
     boolean addOrUpdateNurse(Nurse nurse);
-    List<Prescription> getPrescriptionForOrder(String kw);
+    List<Prescription> getPrescriptionForOrder(String kw, Date createdDate,int page);
+    long CountPrescriptionForOrder(String kw, Date createdDate);
     Map<Object, Object> getDetailOrder(int id);
-    List<Appointment> getAppointmentForConfirm(String kw, boolean check);
+     long countAppointmentForConfirm(String kw,Date fromDate, Date toDate, boolean check);
+    List<Appointment> getAppointmentForConfirm(String kw,Date fromDate, Date toDate, int page, boolean check);
 }

@@ -107,6 +107,7 @@ com\hlk\controllers\CartController.class
 com\hlk\formatter\PrescriptionDetailFormatter.class
 com\hlk\utils\PriceList$3.class
 com\hlk\repository\ScheduleNurseRepository.class
+com\hlk\controllers\ApiDeleteController.class
 com\hlk\repository\impl\AppointmentRepositoryImpl.class
 com\hlk\repository\impl\MedicineRepositoryImpl.class
 com\hlk\controllers\PrescriptionDetailController.class
@@ -122,3 +123,4 @@ com\hlk\service\MedicineService.class
 com\hlk\model\Sick.class
 com\hlk\utils\PriceList$4.class
 com\hlk\repository\DoctorRepository.class
+com\hlk\utils\RestFB.class

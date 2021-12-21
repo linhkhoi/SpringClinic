@@ -31,6 +31,7 @@ public class RestFB {
   public static String FACEBOOK_APP_ID = "274262237510505";
   public static String FACEBOOK_APP_SECRET = "cbbae8b52197c0f768fb0bb2ba9c0f24";
   public static String FACEBOOK_REDIRECT_URL = "https://localhost:8443/SpringClinic/login-facebook";
+//  public static String FACEBOOK_REDIRECT_URL = "http://springmvc-env.eba-2mrwhpvg.us-east-2.elasticbeanstalk.com/login-facebook";
   public static String FACEBOOK_LINK_GET_TOKEN = "https://graph.facebook.com/oauth/access_token?client_id=%s&client_secret=%s&redirect_uri=%s&code=%s";
   public String getToken(final String code) throws ClientProtocolException, IOException {
     String link = String.format(FACEBOOK_LINK_GET_TOKEN, FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, FACEBOOK_REDIRECT_URL, code);

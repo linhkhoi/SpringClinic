@@ -7,6 +7,7 @@ package com.hlk.repository;
 
 import com.hlk.model.Cart;
 import com.hlk.model.Prescription;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,9 @@ import java.util.Map;
  */
 public interface PrescriptionRepository {
     List<Prescription> getPrescriptions(String kw);
+    List<Prescription> getPrescriptions(String kw, Date createdDate,int page);
     Prescription getPrescriptionById(int id);
+    long countPrescription(String kw, Date createdDate);
     boolean deletePrescription(int id);
     boolean addOrUpdatePrescription(Prescription prescription);
     boolean addPrescription(Map<Integer, Cart> cart, int appointmentId, int doctorId);

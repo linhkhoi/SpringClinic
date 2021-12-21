@@ -42,11 +42,21 @@
             <label for="file">
                 <spring:message code="medicine.image" />
             </label>
-            <form:input id="file" type="file" cssClass="form-control date-picker" path="file" accept="image/*" />
+            <form:input onchange="loadFile(event)" id="file" type="file" cssClass="form-control date-picker" path="file" accept="image/*" />
+            <img id="output" class="w-25 h-25"/>
         </div>
         <div>
             <input type="submit" value="Đăng ký" class="btn btn-danger mb-4" />
+            
         </div>
     </form:form>
 </div>
-
+<script>
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
+</script>

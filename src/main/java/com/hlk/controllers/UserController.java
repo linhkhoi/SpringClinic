@@ -62,7 +62,7 @@ public class UserController {
             user.setAvatar(img);
             if (this.userService.addOrUpdateUser(user) == true) {
 
-                return "redirect:/login";
+                return "redirect:/admin/user-admin";
             } else {
                 errMgs = "đã có lỗi";
             }

@@ -29,6 +29,18 @@
             <a href="<c:url value="/admin/patient-edit/" />" class="btn btn-success"><spring:message code="label.add" /></a>
         </div>
     </div>
+                <div class="col-md-11">
+         <ul class="pagination">
+            <c:forEach begin="1" end="${Math.ceil(count/12)}" var="i">
+                <c:if test = "${page == i}">
+                    <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/admin/patient/"/>?page=${i}">${i}</a></li>
+                </c:if>
+                <c:if test = "${page != i}">
+                    <li class="page-item"><a class="page-link mx-0" href="<c:url value="/admin/patient/"/>?page=${i}">${i}</a></li>
+                </c:if>
+            </c:forEach>
+        </ul>
+        </div>
     <table class="table align-middle">
         <thead>
             <tr>

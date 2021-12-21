@@ -8,6 +8,7 @@ package com.hlk.model;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,8 +51,9 @@ public class Prescription {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
     
-    @ManyToOne
-    @JoinColumn(name = "appointment_id")
+ 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "appointment_id", referencedColumnName = "id")
     private Appointment appointment;
     
     @OneToMany(mappedBy = "prescription")
@@ -84,6 +87,8 @@ public class Prescription {
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
     }
+
+    
     
     
 

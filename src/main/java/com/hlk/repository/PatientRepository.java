@@ -14,10 +14,12 @@ import java.util.List;
  */
 public interface PatientRepository {
     List<Patient> getPatients(String kw);
+    List<Patient> getPatients(String kw,int page);
     Patient getPatientById(int patientId);
     boolean deletePatient(int patientId);
     boolean addOrUpdatePatient(Patient patient);
     
     String getEmailPatientByAppointmentId(int id);
+    long countPatient(String kw);
     
 }

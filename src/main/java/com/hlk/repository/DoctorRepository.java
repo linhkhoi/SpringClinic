@@ -5,7 +5,6 @@
  */
 package com.hlk.repository;
 
-import com.hlk.model.Appointment;
 import com.hlk.model.Doctor;
 import java.util.List;
 
@@ -15,9 +14,11 @@ import java.util.List;
  */
 public interface DoctorRepository{
     List<Doctor> getDoctors(String kw);
+    List<Doctor> getDoctors(String kw,int page);
     Doctor getDoctorById(int doctorId);
+    long countDoctor(String kw);
     boolean deleteDoctor(int doctorId);
     boolean addOrUpdateDoctor(Doctor doctor);
-    List<Object[]> getPatientListById(int patientId);
+
     
 }

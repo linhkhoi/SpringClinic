@@ -11,6 +11,7 @@ import com.hlk.model.Prescription;
 import com.hlk.repository.NurseRepository;
 import com.hlk.service.NurseService;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,8 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public List<Prescription> getPrescriptionForOrder(String kw) {
-        return this.nurseRepository.getPrescriptionForOrder(kw);
+    public List<Prescription> getPrescriptionForOrder(String kw, Date createdDate,int page) {
+        return this.nurseRepository.getPrescriptionForOrder(kw,createdDate,page);
     }
 
     @Override
@@ -70,8 +71,18 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
-    public List<Appointment> getAppointmentForConfirm(String string, boolean check) {
-        return this.nurseRepository.getAppointmentForConfirm(string, check);
+    public List<Appointment> getAppointmentForConfirm(String string,Date fromDate, Date toDate, int page, boolean check) {
+        return this.nurseRepository.getAppointmentForConfirm(string,fromDate,toDate, page, check);
+    }
+
+    @Override
+    public long CountPrescriptionForOrder(String kw, Date createdDate) {
+        return this.nurseRepository.CountPrescriptionForOrder(kw, createdDate);
+    }
+
+    @Override
+    public long countAppointmentForConfirm(String kw, Date fromDate, Date toDate, boolean check) {
+        return this.nurseRepository.countAppointmentForConfirm(kw, fromDate, toDate, check);
     }
 
 }

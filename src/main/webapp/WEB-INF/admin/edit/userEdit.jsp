@@ -47,7 +47,7 @@
             <form:input id="userRole" class="form-control" path="userRole" />
         </div>
          <div class="form-group">
-            <label for="dateJoined">User Role</label>
+            <label for="dateJoined">Date Joined</label>
             <form:input id="dateJoined" type="date" class="form-control" path="dateJoined" />
         </div>
         <div class="form-group">

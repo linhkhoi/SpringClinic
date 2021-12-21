@@ -6,6 +6,7 @@
 package com.hlk.service;
 
 import com.hlk.model.MedicalRecord;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,6 +16,9 @@ import java.util.List;
 public interface MedicalRecordService {
     List<MedicalRecord> getMedicalRecords(String kw);
     MedicalRecord getMedicalRecordById(int medicalRecordId);
+    List<MedicalRecord> getMedicalRecordsByPatient(int patientId);
+    List<MedicalRecord> getMedicalRecordsByPatient(int patientId,Date fromDate, Date toDate, int page);
+    long countMedicalRecord(int patientId,Date fromDate, Date toDate);
     boolean deleteMedicalRecord(int medicalRecordId);
     boolean addOrUpdateMedicalRecord(MedicalRecord medicalRecord);
 }

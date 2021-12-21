@@ -22,8 +22,8 @@ public class PatientServiceImpl implements PatientService{
     private PatientRepository patientRepository;
 
     @Override
-    public List<Patient> getPatients(String kw) {
-        return this.patientRepository.getPatients(kw);
+    public List<Patient> getPatients(String kw,int page) {
+        return this.patientRepository.getPatients(kw,page);
     }
 
     @Override
@@ -44,6 +44,16 @@ public class PatientServiceImpl implements PatientService{
     @Override
     public String getEmailPatientByAppointmentId(int id) {
         return this.patientRepository.getEmailPatientByAppointmentId(id);
+    }
+
+    @Override
+    public List<Patient> getPatients(String kw) {
+        return this.patientRepository.getPatients(kw);
+    }
+
+    @Override
+    public long countPatient(String kw) {
+        return this.patientRepository.countPatient(kw);
     }
 
    

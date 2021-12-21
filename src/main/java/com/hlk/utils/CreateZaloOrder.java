@@ -54,6 +54,7 @@ public class CreateZaloOrder {
         final String appTransId = getCurrentTimeString("yyMMdd") +"_"+ random_id;
         final Map embed_data = new HashMap(){{
             put("redirecturl", "http://localhost:8080/SpringClinic/nurse/check-zalo/?appId="+appTransId+"&preId="+prescriptionId);
+//            put("redirecturl", "http://springmvc-env.eba-2mrwhpvg.us-east-2.elasticbeanstalk.com/nurse/check-zalo/?appId="+appTransId+"&preId="+prescriptionId);
         }};
 
         final Map[] item = {

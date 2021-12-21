@@ -41,17 +41,17 @@
         <div > 
             <a href="<c:url value="/cart/" />" class="btn btn-success mb-3">
                 <spring:message code="label.prescription" />
-                <span class="badge badge-danger" id="cart-counter">${cartStats.totalQuantity}</span>
+                <span class="badge badge-danger" id="cart-counter">${cartCounter}</span>
             </a>
             
         </div>
         <ul class="pagination">
             <c:forEach begin="1" end="${Math.ceil(count/6)}" var="i">
                 <c:if test = "${page == i}">
-                    <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/doctor/add-prescription/"/>?page=${i}">${i}</a></li>
+                    <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/doctor/add-prescription/"/>?appointmentId=${param.appointmentId}&page=${i}">${i}</a></li>
                 </c:if>
                 <c:if test = "${page != i}">
-                    <li class="page-item"><a class="page-link mx-0" href="<c:url value="/doctor/add-prescription/"/>?page=${i}">${i}</a></li>
+                    <li class="page-item"><a class="page-link mx-0" href="<c:url value="/doctor/add-prescription/"/>?appointmentId=${param.appointmentId}&page=${i}">${i}</a></li>
                 </c:if>
             </c:forEach>
         </ul>
@@ -105,7 +105,7 @@
                     <sec:authorize access="hasRole('ROLE_DOCTOR')">
                         <td class="">
                             <a href="javascript:;" class="btn btn-info btn-sm px-3" 
-                               onclick="addToCart(${m.id})"><spring:message code="label.add" /></a>
+                               onclick="addToCart(${m.id},'${m.name}',${m.price})"><spring:message code="label.add" /></a>
                         </td>
                     </sec:authorize>
                     

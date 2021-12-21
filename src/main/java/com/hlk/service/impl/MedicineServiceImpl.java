@@ -48,8 +48,13 @@ public class MedicineServiceImpl implements MedicineService{
     }
 
     @Override
-    public long countMedicine() {
-        return this.medicineRepository.countMedicine();
+    public long countMedicine(String kw) {
+        return this.medicineRepository.countMedicine(kw);
+    }
+
+    @Override
+    public List<Object[]> getMedicinesByPrescription(int preId) {
+        return this.medicineRepository.getMedicinesByPrescription(preId);
     }
     
 }

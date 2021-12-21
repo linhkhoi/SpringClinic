@@ -6,6 +6,7 @@
 package com.hlk.service;
 
 import com.hlk.model.ScheduleNurse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,6 +16,9 @@ import java.util.List;
 public interface ScheduleNurseService {
     List<ScheduleNurse> getScheduleNurses(String kw);
     ScheduleNurse getScheduleNurseById(int Id);
+    List<ScheduleNurse> getScheduleNurseByNurse(int id);
+    List<ScheduleNurse> getScheduleNurseByNurse(int id,Date fromDate, Date toDate, int page);
+    long countSchedule(int id,Date fromDate, Date toDate);
     boolean deleteScheduleNurse(int Id);
     boolean addOrUpdateScheduleNurse(ScheduleNurse scheduleNurse);
 }

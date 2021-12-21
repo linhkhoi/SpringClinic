@@ -5,21 +5,16 @@
  */
 package com.hlk.repository.impl;
 
-import com.hlk.model.Appointment;
 import com.hlk.model.Doctor;
 import com.hlk.model.MedicalRecord;
-import com.hlk.model.Prescription;
 import com.hlk.model.Sick;
+import com.hlk.model.User;
 import com.hlk.repository.DoctorRepository;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
@@ -49,9 +44,11 @@ public class DoctorRepositoryImpl implements DoctorRepository{
         query = query.select(root);
         
         if(!kw.isEmpty() && kw!=null){
-            Predicate p = builder.like(root.get("salary").as(String.class),
+            Root<User> uRoot = query.from(User.class);
+            Predicate p2 = builder.equal(root.get("user"), uRoot.get("id"));
+            Predicate p = builder.like(uRoot.get("firstName").as(String.class),
                     String.format("%%%s%%", kw));
-            query = query.where(p);
+            query = query.where(builder.and(p,p2));
         }
         
         Query q = session.createQuery(query);
@@ -94,20 +91,46 @@ public class DoctorRepositoryImpl implements DoctorRepository{
         
         return false;
     }
-    
+
     @Override
-    public List<Object[]> getPatientListById(int patientId) {
+    public List<Doctor> getDoctors(String kw, int page) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Doctor> query = builder.createQuery(Doctor.class);
+        Root root = query.from(Doctor.class);
+        query = query.select(root);
         
-        CriteriaBuilder builder = session.getCriteriaBuilder();        
-        CriteriaQuery<MedicalRecord> searchQuery = builder.createQuery(MedicalRecord.class);
-        Root<MedicalRecord> aRoot = searchQuery.from(MedicalRecord.class);
-        Join<MedicalRecord, Sick> bJoin= aRoot.join("sick");
-        bJoin.on(builder.equal(aRoot.get("patient"), patientId));
+        if(!kw.isEmpty() && kw!=null){
+            Root<User> uRoot = query.from(User.class);
+            Predicate p2 = builder.equal(root.get("user"), uRoot.get("id"));
+            Predicate p = builder.like(uRoot.get("firstName").as(String.class),
+                    String.format("%%%s%%", kw));
+            query = query.where(builder.and(p,p2));
+        }
         
-       
-        Query query = session.createQuery(searchQuery);
-        return query.getResultList();
+        Query q = session.createQuery(query);
+        int max = 12;
+        q.setMaxResults(max);
+        q.setFirstResult((page-1)*max);
+        return q.getResultList();
+    }
+
+    @Override
+    public long countDoctor(String kw) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        Root root = query.from(Doctor.class);
+        query.select(builder.count(root.get("id")));
+        if(!kw.isEmpty() && kw!=null){
+            Root<User> uRoot = query.from(User.class);
+            Predicate p2 = builder.equal(root.get("user"), uRoot.get("id"));
+            Predicate p = builder.like(uRoot.get("firstName").as(String.class),
+                    String.format("%%%s%%", kw));
+            query = query.where(builder.and(p,p2));
+        }
+        Query q = session.createQuery(query);
+        return Long.parseLong(q.getSingleResult().toString());
     }
     
 }

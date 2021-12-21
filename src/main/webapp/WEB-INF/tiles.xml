@@ -181,4 +181,16 @@
         <put-attribute name="title" value="Thêm hồ sơ bệnh" />
         <put-attribute name="content" value="/WEB-INF/doctor/addMedical.jsp" />
     </definition>
+    <definition name="profile" extends="baseLayout">
+        <put-attribute name="title" value="Thêm hồ sơ bệnh" />
+        <put-attribute name="content" value="/WEB-INF/patient/profile.jsp" />
+    </definition>
+    <definition name="seeOrder" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết hoá đơn" />
+        <put-attribute name="content" value="/WEB-INF/nurse/seeOrder.jsp" />
+    </definition>
+    <definition name="appointmentPatient" extends="baseLayout">
+        <put-attribute name="title" value="Lịch sử phiếu hẹn" />
+        <put-attribute name="content" value="/WEB-INF/doctor/appointmentPatient.jsp" />
+    </definition>
 </tiles-definitions>

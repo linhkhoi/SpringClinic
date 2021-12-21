@@ -45,7 +45,7 @@ public class SickController {
     }
     
     @RequestMapping(value = "/admin/sick-edit", method = RequestMethod.POST)
-    public String addOrUpdateProduct(Model model, @ModelAttribute(value="sick") @Valid Sick sick,BindingResult err) throws UnsupportedEncodingException {
+    public String addOrUpdateSick(Model model, @ModelAttribute(value="sick") @Valid Sick sick,BindingResult err) throws UnsupportedEncodingException {
         if (err.hasErrors()) {
             return "sickEdit";
         }

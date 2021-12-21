@@ -6,6 +6,7 @@
 package com.hlk.controllers;
 
 import com.hlk.model.ScheduleNurse;
+import com.hlk.service.NurseService;
 import com.hlk.service.ScheduleNurseService;
 import java.io.UnsupportedEncodingException;
 import javax.validation.Valid;
@@ -28,7 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ScheduleNurseController {
     @Autowired
     private ScheduleNurseService scheduleNurseService;
-    
+     @Autowired
+    private NurseService nurseService;
     @GetMapping(value ="/")
     public String addOrUpdateView(Model model,
             @RequestParam(name = "scheduleNurseId", defaultValue = "0") int scheduleNurseId) {
@@ -36,21 +38,25 @@ public class ScheduleNurseController {
             model.addAttribute("scheduleNurse", this.scheduleNurseService.getScheduleNurseById(scheduleNurseId));
         else // thêm
             model.addAttribute("scheduleNurse", new ScheduleNurse());
+        
+        model.addAttribute("nursecommom", this.nurseService.getNurses(""));
         return "scheduleNurseEdit";
     }
     
     @PostMapping(value ="/")
     public String addOrUpdateScheduleNurse(Model model, @ModelAttribute(value="scheduleNurse") @Valid ScheduleNurse scheduleNurse,BindingResult err) throws UnsupportedEncodingException {
         if (err.hasErrors()) {
+            model.addAttribute("nursecommom", this.nurseService.getNurses(""));
             return "scheduleNurseEdit";
         }
         
         if (!this.scheduleNurseService.addOrUpdateScheduleNurse(scheduleNurse)) {
             model.addAttribute("errMsg", "Hệ thóng đang có lỗi! Vui lòng quay lại sau!");
+            model.addAttribute("nursecommom", this.nurseService.getNurses(""));
             return "scheduleNurseEdit";
         }
         
-        return "redirect:/admin/scheduleNurse";
+        return "redirect:/admin/schedule-nurse";
     }
     
 }

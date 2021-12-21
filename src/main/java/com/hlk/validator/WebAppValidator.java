@@ -28,23 +28,22 @@ public class WebAppValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> type) {
-        return Medicine.class.isAssignableFrom(type);
+        return Medicine.class.isAssignableFrom(Medicine.class);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        Set<ConstraintViolation<Object>> constraintViolations = beanValidator.validate(o);
+        Set<ConstraintViolation<Object>> constraintViolations = this.beanValidator.validate(o);
         for (ConstraintViolation<Object> obj : constraintViolations) {
             errors.rejectValue(obj.getPropertyPath().toString(),
                     obj.getMessageTemplate(), obj.getMessage());
         }
-        for (Validator obj : springValidators) {
+        for (Validator obj : this.springValidators) {
             obj.validate(o, errors);
         }
     }
 
-    public void setSpringValidators(
-            Set<Validator> springValidators) {
+    public void setSpringValidators(Set<Validator> springValidators) {
         this.springValidators = springValidators;
     }
 

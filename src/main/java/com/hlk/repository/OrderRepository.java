@@ -6,6 +6,7 @@
 package com.hlk.repository;
 
 import com.hlk.model.Order;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ import java.util.Map;
 public interface OrderRepository {
     List<Order> getOrders(String kw);
     Order getOrderById(int orderId);
+    List<Order> getOrders(String kw,Date fromDate, Date toDate,int page);
+    long countOrder(String kw,Date fromDate, Date toDate);
     boolean deleteOrder(int orderId);
     boolean addOrUpdateOrder(Order order);
     List<Object[]> getCountSalesByMonth(int month, int year);

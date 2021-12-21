@@ -8,6 +8,7 @@ package com.hlk.service.impl;
 import com.hlk.model.ScheduleNurse;
 import com.hlk.repository.ScheduleNurseRepository;
 import com.hlk.service.ScheduleNurseService;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,21 @@ public class ScheduleNurseServiceImpl implements ScheduleNurseService{
     @Override
     public boolean addOrUpdateScheduleNurse(ScheduleNurse scheduleNurse) {
         return this.nurseRepository.addOrUpdateScheduleNurse(scheduleNurse);
+    }
+
+    @Override
+    public List<ScheduleNurse> getScheduleNurseByNurse(int id) {
+        return this.nurseRepository.getScheduleNurseByNurse(id);
+    }
+
+    @Override
+    public List<ScheduleNurse> getScheduleNurseByNurse(int id, Date fromDate, Date toDate, int page) {
+        return this.nurseRepository.getScheduleNurseByNurse(id, fromDate, toDate, page);
+    }
+
+    @Override
+    public long countSchedule(int id, Date fromDate, Date toDate) {
+        return this.nurseRepository.countSchedule(id, fromDate, toDate);
     }
     
 }

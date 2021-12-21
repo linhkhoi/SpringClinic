@@ -15,8 +15,9 @@ import java.util.List;
  */
 public interface DoctorService {
     List<Doctor> getDoctors(String kw);
+    List<Doctor> getDoctors(String kw,int page);
     Doctor getDoctorById(int doctorId);
+    long countDoctor(String kw);
     boolean deleteDoctor(int doctorId);
     boolean addOrUpdateDoctor(Doctor doctor);
-    List<Object[]> getPatientListById(int patientId);
 }

@@ -11,7 +11,6 @@ C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\c
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\repository\impl\DoctorRepositoryImpl.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\configs\SecurityConfig.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\formatter\AppointmentFormatter.java
-C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\configs\SocialConfig.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\formatter\PrescriptionFormatter.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\controllers\UserController.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\controllers\MedicalRecordController.java
@@ -19,6 +18,7 @@ C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\r
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\formatter\DoctorFormatter.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\service\impl\PatientServiceImpl.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\model\Nurse.java
+C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\controllers\ApiDeleteController.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\model\ScheduleNurse.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\repository\MedicalRecordRepository.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\repository\impl\AppointmentRepositoryImpl.java
@@ -42,6 +42,7 @@ C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\m
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\repository\PrescriptionDetailRepository.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\service\DoctorService.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\controllers\PrescriptionDetailController.java
+C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\utils\RestFB.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\repository\impl\NurseRepositoryImpl.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\repository\impl\PrescriptionRepositoryImpl.java
 C:\Users\MSIGE66\Documents\NetBeansProjects\SpringClinic\src\main\java\com\hlk\repository\ScheduleDoctorRepository.java

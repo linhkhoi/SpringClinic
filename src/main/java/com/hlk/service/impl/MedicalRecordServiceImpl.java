@@ -8,6 +8,7 @@ package com.hlk.service.impl;
 import com.hlk.model.MedicalRecord;
 import com.hlk.repository.MedicalRecordRepository;
 import com.hlk.service.MedicalRecordService;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,21 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
     @Override
     public boolean addOrUpdateMedicalRecord(MedicalRecord medicalRecord) {
         return this.medicalRecordRepository.addOrUpdateMedicalRecord(medicalRecord);
+    }
+
+    @Override
+    public List<MedicalRecord> getMedicalRecordsByPatient(int patientId) {
+        return this.medicalRecordRepository.getMedicalRecordsByPatient(patientId);
+    }
+
+    @Override
+    public List<MedicalRecord> getMedicalRecordsByPatient(int patientId, Date fromDate, Date toDate, int page) {
+        return this.medicalRecordRepository.getMedicalRecordsByPatient(patientId, fromDate, toDate, page);
+    }
+
+    @Override
+    public long countMedicalRecord(int patientId, Date fromDate, Date toDate) {
+        return this.medicalRecordRepository.countMedicalRecord(patientId, fromDate, toDate);
     }
     
 }

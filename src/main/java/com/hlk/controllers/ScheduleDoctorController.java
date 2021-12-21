@@ -6,6 +6,7 @@
 package com.hlk.controllers;
 
 import com.hlk.model.ScheduleDoctor;
+import com.hlk.service.DoctorService;
 import com.hlk.service.ScheduleDoctorService;
 import java.io.UnsupportedEncodingException;
 import javax.validation.Valid;
@@ -26,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/admin/schedoc-edit")
 public class ScheduleDoctorController {
+    
+    @Autowired
+    private DoctorService doctorService;
+    
     @Autowired
     private ScheduleDoctorService scheduleDoctorService;
     
@@ -36,17 +41,20 @@ public class ScheduleDoctorController {
             model.addAttribute("scheduleDoctor", this.scheduleDoctorService.getScheduleDoctorById(scheduleDoctorId));
         else // thêm
             model.addAttribute("scheduleDoctor", new ScheduleDoctor());
+        model.addAttribute("doctorcommom", this.doctorService.getDoctors(""));
         return "scheduleDoctorEdit";
     }
     
     @PostMapping(value ="/")
     public String addOrUpdateScheduleDoctor(Model model, @ModelAttribute(value="scheduleDoctor") @Valid ScheduleDoctor scheduleDoctor,BindingResult err) throws UnsupportedEncodingException {
         if (err.hasErrors()) {
+            model.addAttribute("doctorcommom", this.doctorService.getDoctors(""));
             return "scheduleDoctorEdit";
         }
         
         if (!this.scheduleDoctorService.addOrUpdateScheduleDoctor(scheduleDoctor)) {
             model.addAttribute("errMsg", "Hệ thóng đang có lỗi! Vui lòng quay lại sau!");
+            model.addAttribute("doctorcommom", this.doctorService.getDoctors(""));
             return "scheduleDoctorEdit";
         }
         

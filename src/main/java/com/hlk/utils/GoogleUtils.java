@@ -25,6 +25,7 @@ public class GoogleUtils {
   public static String GOOGLE_CLIENT_ID = "65963281795-guocpher4k54h97iijf3rrb662s4135b.apps.googleusercontent.com";
   public static String GOOGLE_CLIENT_SECRET = "m_o3dHuEplcJrjHWwwKkkeOv";
   public static String GOOGLE_REDIRECT_URI = "https://localhost:8443/SpringClinic/login-google";
+//  public static String GOOGLE_REDIRECT_URI = "http://springmvc-env.eba-2mrwhpvg.us-east-2.elasticbeanstalk.com/login-google";
   public static String GOOGLE_LINK_GET_TOKEN = "https://accounts.google.com/o/oauth2/token";
   public static String GOOGLE_LINK_GET_USER_INFO = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=";
   public static String GOOGLE_GRANT_TYPE = "authorization_code";

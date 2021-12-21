@@ -15,7 +15,8 @@ import java.util.List;
 public interface MedicineRepository {
     List<Medicine> getMedicines(String kw);
     List<Medicine> getMedicines(String kw, int page);
-    long countMedicine();
+    List<Object[]> getMedicinesByPrescription(int preId);
+    long countMedicine(String kw);
     Medicine getMedicineById(int medicineId);
     boolean deleteMedicine(int medicineId);
     boolean addOrUpdateMedicine(Medicine medicine);

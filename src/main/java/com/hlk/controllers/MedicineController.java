@@ -9,7 +9,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.hlk.model.Medicine;
 import com.hlk.service.MedicineService;
-import com.hlk.validator.MedicineValidator;
+import com.hlk.service.SickService;
 import com.hlk.validator.WebAppValidator;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -38,6 +38,9 @@ public class MedicineController {
     private MedicineService medicineService;
     
     @Autowired
+    private SickService sickService;
+    
+    @Autowired
     private WebAppValidator medicineValidator;
     
     @Autowired
@@ -55,12 +58,15 @@ public class MedicineController {
             model.addAttribute("medicine", this.medicineService.getMedicineById(medicineId));
         else // thêm
             model.addAttribute("medicine", new Medicine());
+        
+        model.addAttribute("sickcommom", this.sickService.getSicks(""));
         return "medicineEdit";
     }
     
     @PostMapping(value ="/")
     public String addOrUpdateMedicine(Model model, @ModelAttribute(value="medicine") @Valid Medicine medicine,BindingResult err) throws UnsupportedEncodingException, IOException {
         if (err.hasErrors()) {
+            model.addAttribute("sickcommom", this.sickService.getSicks(""));
             return "medicineEdit";
         }
         
@@ -71,6 +77,7 @@ public class MedicineController {
         
         if (!this.medicineService.addOrUpdateMedicine(medicine)) {
             model.addAttribute("errMsg", "Hệ thóng đang có lỗi! Vui lòng quay lại sau!");
+            model.addAttribute("sickcommom", this.sickService.getSicks(""));
             return "medicineEdit";
         }
         

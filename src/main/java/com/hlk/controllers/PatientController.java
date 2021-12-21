@@ -7,6 +7,7 @@ package com.hlk.controllers;
 
 import com.hlk.model.Patient;
 import com.hlk.service.PatientService;
+import com.hlk.service.UserService;
 import java.io.UnsupportedEncodingException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PatientController {
     @Autowired
     private PatientService patientService;
+    @Autowired
+    private UserService userService;
     
     @GetMapping(value ="/")
     public String addOrUpdateView(Model model,
@@ -36,17 +39,20 @@ public class PatientController {
             model.addAttribute("patient", this.patientService.getPatientById(patientId));
         else // thêm
             model.addAttribute("patient", new Patient());
+        model.addAttribute("usercommom", this.userService.getUsers(""));
         return "patientEdit";
     }
     
     @PostMapping(value ="/")
     public String addOrUpdatePatient(Model model, @ModelAttribute(value="patient") @Valid Patient patient,BindingResult err) throws UnsupportedEncodingException {
         if (err.hasErrors()) {
+            model.addAttribute("usercommom", this.userService.getUsers(""));
             return "patientEdit";
         }
         
         if (!this.patientService.addOrUpdatePatient(patient)) {
             model.addAttribute("errMsg", "Hệ thóng đang có lỗi! Vui lòng quay lại sau!");
+            model.addAttribute("usercommom", this.userService.getUsers(""));
             return "patientEdit";
         }
         

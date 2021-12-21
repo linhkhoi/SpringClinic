@@ -6,6 +6,7 @@
 package com.hlk.service;
 
 import com.hlk.model.Order;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ public interface OrderService {
     Order getOrderById(int orderId);
     boolean deleteOrder(int orderId);
     boolean addOrUpdateOrder(Order order);
+    List<Order> getOrders(String kw,Date fromDate, Date toDate,int page);
+    long countOrder(String kw,Date fromDate, Date toDate);
     List<List<Map<Object,Object>>> getCountSalesByMonth(int month, int year);
     List<List<Map<Object,Object>>> getCountSalesByQuarter(int quarter, int year);
     List<List<Map<Object,Object>>> getCountSalesByYear(int year);

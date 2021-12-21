@@ -62,6 +62,7 @@ public class UserRepositoryImpl implements UserRepository {
         Session s = this.sessionFactory.getObject().getCurrentSession();
         try {
             if (user.getId() > 0) {
+                user.setPassword(this.passwordEncoder.encode(user.getPassword()));
                 s.update(user);
             } else {
                 user.setPassword(this.passwordEncoder.encode(user.getPassword()));
@@ -111,6 +112,41 @@ public class UserRepositoryImpl implements UserRepository {
             return null;
         }
         return (User) listU.get(0);
+    }
+
+    @Override
+    public List<User> getUsers(String kw, int page) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<User> query = builder.createQuery(User.class);
+        Root root = query.from(User.class);
+        query = query.select(root);
+
+        if (!kw.isEmpty() && kw != null) {
+            Predicate p = builder.equal(root.get("username").as(String.class), kw.trim());
+            query = query.where(p);
+        }
+
+        Query q = session.createQuery(query);
+        int max = 12;
+        q.setMaxResults(max);
+        q.setFirstResult((page-1)*max);
+        return q.getResultList();
+    }
+
+    @Override
+    public long countUser(String kw) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        Root root = query.from(User.class);
+        query.select(builder.count(root.get("id")));
+        if(!kw.isEmpty() && kw!=null){
+            Predicate p = builder.equal(root.get("username").as(String.class), kw.trim());
+            query = query.where(p);
+        }
+        Query q = session.createQuery(query);
+        return Long.parseLong(q.getSingleResult().toString());
     }
 
 }

@@ -10,6 +10,7 @@ import com.hlk.model.Prescription;
 import com.hlk.repository.PrescriptionRepository;
 import com.hlk.service.PrescriptionService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,16 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     @Override
     public boolean addPrescription(Map<Integer, Cart> cart, int appointmentId, int doctorId) {
         return this.prescriptionRepository.addPrescription(cart, appointmentId, doctorId);
+    }
+
+    @Override
+    public List<Prescription> getPrescriptions(String kw, Date createdDate, int page) {
+        return this.prescriptionRepository.getPrescriptions(kw, createdDate, page);
+    }
+
+    @Override
+    public long countPrescription(String kw, Date createdDate) {
+        return this.prescriptionRepository.countPrescription(kw, createdDate);
     }
 
     

@@ -10,12 +10,14 @@ import java.util.Date;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,8 +54,9 @@ public class Appointment {
     @JoinColumn(name = "patient_id")
     private Patient patient;
     
-    @OneToMany(mappedBy = "appointment")
-    private Set<Prescription> prescriptions;
+    
+    @OneToOne(mappedBy = "appointment", fetch = FetchType.LAZY)
+    private Prescription prescription;
 
     public Date getMeetTime() {
         return meetTime;
@@ -62,17 +65,18 @@ public class Appointment {
     public void setMeetTime(Date meetTime) {
         this.meetTime = meetTime;
     }
+
+    public Prescription getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
+    }
     
     
 
-    public Set<Prescription> getPrescriptions() {
-        return prescriptions;
-    }
-
-    public void setPrescriptions(Set<Prescription> prescriptions) {
-        this.prescriptions = prescriptions;
-    }
-
+   
     
     
     

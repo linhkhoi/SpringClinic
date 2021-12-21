@@ -29,11 +29,36 @@
             <a href="<c:url value="/admin/doctor-edit/" />" class="btn btn-success"><spring:message code="label.add" /></a>
         </div>
     </div>
+        <div class="col-md-11">
+         <ul class="pagination">
+            <c:forEach begin="1" end="${Math.ceil(count/12)}" var="i">
+                <c:if test = "${page == i}">
+                    <c:if test="${param.kw != ''}">
+                         <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/admin/doctor/"/>?kw=${param.kw}&page=${i}">${i}</a></li>
+                    </c:if>
+                    <c:if test="${param.kw == ''}">
+                        <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/admin/doctor/"/>?page=${i}">${i}</a></li>
+                    </c:if>
+                   
+                </c:if>
+                <c:if test = "${page != i}">
+                    <c:if test="${param.kw != ''}">
+                        <li class="page-item"><a class="page-link mx-0" href="<c:url value="/admin/doctor/"/>?kw=${param.kw}&page=${i}">${i}</a></li>
+                    </c:if>
+                    <c:if test="${param.kw == ''}">
+                       <li class="page-item"><a class="page-link mx-0" href="<c:url value="/admin/doctor/"/>?page=${i}">${i}</a></li>
+                    </c:if>
+                </c:if>
+            </c:forEach>
+        </ul>
+        </div>
     <table class="table align-middle">
         <thead>
             <tr>
                 <th scope="col" class="col-md-1">#</th>
                 <th scope="col" class="col-md-2"><spring:message code="doctor.salary" /></th>
+                <th scope="col" class="col-md-auto"><spring:message code="lable.firstName" /></th>
+                <th scope="col" class="col-md-auto"><spring:message code="lable.lastName" /></th>
                 <th scope="col" class="col-md-1"></th>
                 <th scope="col" class="col-md-1"></th>
             </tr>
@@ -42,6 +67,8 @@
             <c:forEach var="d" items="${doctors}">
                 <tr>
                     <th scope="row">${d.id}</th>
+                    <td>${d.user.firstName}</td>
+                    <td>${d.user.lastName}</td>
                     <td><fmt:formatNumber type="number" maxFractionDigits="2" value="${d.salary}"/></td>
                     <td class="">
                         <a href="<c:url value="/admin/doctor-edit/?doctorId=${d.id}" />" class="btn btn-info btn-sm px-3"><spring:message code="label.update" /></a>

@@ -40,7 +40,13 @@
                 <label for="schedule">
                     <spring:message code="schenur.schedule" />
                 </label>
-                    <form:input id="schedule" type="datetime-local" cssClass="form-control date-picker" path="schedule" />
+                    <form:input id="schedule" type="date" cssClass="form-control date-picker" path="schedule" />
+            </div>
+            <div class="form-group">
+                <label for="schedule">
+                    <spring:message code="schedoc.time" />
+                </label>
+                    <form:input id="timeDuty" type="time" cssClass="form-control date-picker" path="timeDuty" />
             </div>
 
             <div class="form-group">

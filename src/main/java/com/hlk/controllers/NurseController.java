@@ -8,11 +8,15 @@ package com.hlk.controllers;
 import com.hlk.model.Appointment;
 import com.hlk.model.Nurse;
 import com.hlk.model.Order;
+import com.hlk.model.User;
 import com.hlk.service.AppointmentService;
+import com.hlk.service.MedicineService;
 import com.hlk.service.NurseService;
 import com.hlk.service.OrderService;
 import com.hlk.service.PatientService;
 import com.hlk.service.PrescriptionService;
+import com.hlk.service.ScheduleNurseService;
+import com.hlk.service.UserService;
 import com.hlk.utils.CreateZaloOrder;
 import com.hlk.utils.GetZaloOrderStatus;
 import java.io.IOException;
@@ -20,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -29,6 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,6 +59,9 @@ public class NurseController {
 
     @Autowired
     private OrderService orderService;
+    
+    @Autowired
+    private MedicineService medicineService;
 
     @Autowired
     private AppointmentService appointmentService;
@@ -60,7 +70,12 @@ public class NurseController {
     private PatientService patientService;
     
     @Autowired
+    private ScheduleNurseService scheduleNurseService;
+    
+    @Autowired
     public JavaMailSender emailSender;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/admin/nurse-edit", method = RequestMethod.GET)
     public String addOrUpdateView(Model model,
@@ -72,17 +87,20 @@ public class NurseController {
         {
             model.addAttribute("nurse", new Nurse());
         }
+        model.addAttribute("usercommom", this.userService.getUsers(""));
         return "nurseEdit";
     }
 
     @RequestMapping(value = "/admin/nurse-edit", method = RequestMethod.POST)
     public String addOrUpdateNurse(Model model, @ModelAttribute(value = "nurse") @Valid Nurse nurse, BindingResult err) throws UnsupportedEncodingException {
         if (err.hasErrors()) {
+            model.addAttribute("usercommom", this.userService.getUsers(""));
             return "nurseEdit";
         }
 
         if (!this.nurseService.addOrUpdateNurse(nurse)) {
             model.addAttribute("errMsg", "Hệ thóng đang có lỗi! Vui lòng quay lại sau!");
+            model.addAttribute("usercommom", this.userService.getUsers(""));
             return "nurseEdit";
         }
 
@@ -91,8 +109,25 @@ public class NurseController {
 
     @RequestMapping(value = "/nurse/add-order", method = RequestMethod.GET)
     public String addOrder(Model model, @RequestParam(required = false) Map<String, String> params) {
-        String kw = params.getOrDefault("kw", "");
-        model.addAttribute("prescriptions", this.nurseService.getPrescriptionForOrder(kw));
+        String kw = params.getOrDefault("kw","");
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null;
+        try{
+            String from = params.getOrDefault("createdDate",null);
+            if(from != null){
+                fromDate = f.parse(from);
+            }
+            
+        }catch(ParseException ex){
+            ex.printStackTrace();
+        }
+        
+        
+        int page = Integer.parseInt(params.getOrDefault("page","1")) ;
+        model.addAttribute("count", this.nurseService.CountPrescriptionForOrder(kw, fromDate));
+        model.addAttribute("page", page);
+        
+        model.addAttribute("prescriptions", this.nurseService.getPrescriptionForOrder(kw,fromDate,page));
         return "prescription";
     }
 
@@ -100,6 +135,7 @@ public class NurseController {
     public String checkOrder(Model model, @RequestParam(required = false) Map<String, String> params) {
         String id = params.getOrDefault("prescriptionId", "");
         model.addAttribute("data", this.nurseService.getDetailOrder(Integer.parseInt(id)));
+        model.addAttribute("preDetail", this.medicineService.getMedicinesByPrescription(Integer.parseInt(id)));
         return "checkOrder";
     }
 
@@ -170,15 +206,79 @@ public class NurseController {
     
     @RequestMapping(value = "/nurse/confirm-appointment", method = RequestMethod.GET)
     public String confirmAppointment(Model model, @RequestParam(required = false) Map<String, String> params) {
-        String kw = params.getOrDefault("kw", "");
-        model.addAttribute("appointments", this.nurseService.getAppointmentForConfirm(kw, false));
+        String kw = params.getOrDefault("kw","");
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null,toDate = null;
+        try{
+            String from = params.getOrDefault("fromDate",null);
+            if(from != null){
+                fromDate = f.parse(from);
+            }
+            String to = params.getOrDefault("toDate",null);
+            if(to != null){
+                toDate = f.parse(to);
+        }
+        }catch(ParseException ex){
+            ex.printStackTrace();
+        }
+        
+        
+        int page = Integer.parseInt(params.getOrDefault("page","1")) ;
+        model.addAttribute("count", this.nurseService.countAppointmentForConfirm(kw, fromDate, toDate, false));
+        model.addAttribute("page", page);
+        model.addAttribute("appointments", this.nurseService.getAppointmentForConfirm(kw,fromDate,toDate,page, false));
         return "appointment";
     }
     
     @RequestMapping(value = "/nurse/see-history-appointment", method = RequestMethod.GET)
     public String seeAppointment(Model model, @RequestParam(required = false) Map<String, String> params) {
-        String kw = params.getOrDefault("kw", "");
-        model.addAttribute("appointments", this.nurseService.getAppointmentForConfirm(kw, true));
+        String kw = params.getOrDefault("kw","");
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null,toDate = null;
+        try{
+            String from = params.getOrDefault("fromDate",null);
+            if(from != null){
+                fromDate = f.parse(from);
+            }
+            String to = params.getOrDefault("toDate",null);
+            if(to != null){
+                toDate = f.parse(to);
+        }
+        }catch(ParseException ex){
+            ex.printStackTrace();
+        }
+        
+        
+        int page = Integer.parseInt(params.getOrDefault("page","1")) ;
+        model.addAttribute("count", this.appointmentService.countAppointment(kw,fromDate,toDate));
+        model.addAttribute("page", page);
+        model.addAttribute("appointments", this.nurseService.getAppointmentForConfirm(kw,fromDate,toDate,page, true));
+        return "appointment";
+    }
+    
+    @RequestMapping(value = "/nurse/list-appointment/")
+    public String appointment(Model model, @RequestParam(required = false) Map<String, String> params) {
+        String kw = params.getOrDefault("kw","");
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null,toDate = null;
+        try{
+            String from = params.getOrDefault("fromDate",null);
+            if(from != null){
+                fromDate = f.parse(from);
+            }
+            String to = params.getOrDefault("toDate",null);
+            if(to != null){
+                toDate = f.parse(to);
+        }
+        }catch(ParseException ex){
+            ex.printStackTrace();
+        }
+        
+        
+        int page = Integer.parseInt(params.getOrDefault("page","1")) ;
+        model.addAttribute("count", this.appointmentService.countAppointment(kw,fromDate,toDate));
+        model.addAttribute("page", page);
+        model.addAttribute("appointments", this.appointmentService.getAppointments(kw,fromDate,toDate,page));
         return "appointment";
     }
     
@@ -197,12 +297,68 @@ public class NurseController {
         
     }
     
-    @RequestMapping(value = "/nurse/see-order-list", method = RequestMethod.GET)
+    @RequestMapping(value = "/nurse/see-order-list/", method = RequestMethod.GET)
     public String seeOrderList(Model model, @RequestParam(required = false) Map<String, String> params) {
         String kw = params.getOrDefault("kw","");
-        model.addAttribute("orders", this.orderService.getOrders(kw));
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null,toDate = null;
+        try{
+            String from = params.getOrDefault("fromDate",null);
+            if(from != null){
+                fromDate = f.parse(from);
+            }
+            String to = params.getOrDefault("toDate",null);
+            if(to != null){
+                toDate = f.parse(to);
+        }
+        }catch(ParseException ex){
+            ex.printStackTrace();
+        }
+        
+        
+        int page = Integer.parseInt(params.getOrDefault("page","1"));
+        
+        model.addAttribute("count", this.orderService.countOrder(kw, fromDate, toDate));
+        model.addAttribute("page", page);
+        
+        model.addAttribute("orders", this.orderService.getOrders(kw,fromDate,toDate,page));
         return "order";
     }
     
+    @RequestMapping(value = "/nurse/schedule-nurse")
+    public String scheduleNurses(Model model, @RequestParam(required = false) Map<String, String> params) {
+              Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User u = this.userService.getUserByUsername(authentication.getName());
+               SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date fromDate = null,toDate = null;
+        try{
+            String from = params.getOrDefault("fromDate",null);
+            if(from != null){
+                fromDate = f.parse(from);
+            }
+            String to = params.getOrDefault("toDate",null);
+            if(to != null){
+                toDate = f.parse(to);
+        }
+        }catch(ParseException ex){
+            ex.printStackTrace();
+        }
+        int page = Integer.parseInt(params.getOrDefault("page","1"));
+        
+        
+        model.addAttribute("count", this.scheduleNurseService.countSchedule(u.getId(), fromDate, toDate));
+        model.addAttribute("page", page);
+       model.addAttribute("schenurs", this.scheduleNurseService.getScheduleNurseByNurse(u.getId(), fromDate, toDate,page));
+       return "scheduleNurse";
+    }
     
+    @RequestMapping(value = "/nurse/see-order/", method = RequestMethod.GET)
+    public String seeOrderDetail(Model model, @RequestParam(required = false) Map<String, String> params) {
+        String id = params.getOrDefault("preId", "");
+        String orderId = params.getOrDefault("orderId", "");
+        model.addAttribute("orderDetail", this.orderService.getOrderById(Integer.parseInt(orderId)));
+        model.addAttribute("data", this.nurseService.getDetailOrder(Integer.parseInt(id)));
+        model.addAttribute("preDetail", this.medicineService.getMedicinesByPrescription(Integer.parseInt(id)));
+        return "seeOrder";
+    }
 }

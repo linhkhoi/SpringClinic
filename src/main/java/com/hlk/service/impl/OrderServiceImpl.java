@@ -10,6 +10,7 @@ import com.hlk.repository.OrderRepository;
 import com.hlk.service.OrderService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,6 +175,16 @@ public class OrderServiceImpl implements OrderService{
         map.put("total", total.longValue());
         
         return map;
+    }
+
+    @Override
+    public List<Order> getOrders(String kw, Date fromDate, Date toDate, int page) {
+        return this.orderRepository.getOrders(kw, fromDate, toDate, page);
+    }
+
+    @Override
+    public long countOrder(String kw, Date fromDate, Date toDate) {
+        return this.orderRepository.countOrder(kw, fromDate, toDate);
     }
     
 }

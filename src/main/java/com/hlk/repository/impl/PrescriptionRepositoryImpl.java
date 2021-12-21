@@ -5,15 +5,19 @@
  */
 package com.hlk.repository.impl;
 
+import com.hlk.model.Appointment;
 import com.hlk.model.Cart;
+import com.hlk.model.Patient;
 import com.hlk.model.Prescription;
 import com.hlk.model.PrescriptionDetail;
+import com.hlk.model.User;
 import com.hlk.repository.PrescriptionRepository;
 import com.hlk.service.AppointmentService;
 import com.hlk.service.DoctorService;
 import com.hlk.service.MedicineService;
 import com.hlk.utils.Utils;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -136,12 +140,12 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
 
         Session session = this.sessionFactory.getObject().getCurrentSession();
 
-        Map<String, BigDecimal> stats = Utils.getCartStats(cart);
+        Map<String, BigDecimal> stats = Utils.cartStats(cart);
 
         try {
             Prescription pre = new Prescription();
             pre.setCreatedDate(new Date());
-            pre.setTotalPrice(stats.get("totalAmount"));
+            pre.setTotalPrice(stats.get("amount"));
             pre.setAppointment(this.appointmentService.getAppointmentById(appointmentId));
             pre.setDoctor(this.doctorService.getDoctorById(doctorId));
             session.save(pre);
@@ -163,6 +167,69 @@ public class PrescriptionRepositoryImpl implements PrescriptionRepository {
         }
 
         return false;
+    }
+
+    @Override
+    public List<Prescription> getPrescriptions(String kw, Date createdDate, int page) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Prescription> query = builder.createQuery(Prescription.class);
+        Root root = query.from(Prescription.class);
+        query = query.select(root);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (!kw.isEmpty() && kw != null) {
+            Root<Appointment> aRoot = query.from(Appointment.class);
+            predicates.add(builder.equal(root.get("appointment"), aRoot.get("id")));
+            Root<Patient> pRoot = query.from(Patient.class);
+            predicates.add(builder.equal(aRoot.get("patient"), pRoot.get("id")));
+            Root<User> uRoot = query.from(User.class);
+            predicates.add(builder.equal(pRoot.get("user"), uRoot.get("id")));
+            predicates.add(builder.like(uRoot.get("firstName").as(String.class),
+                    String.format("%%%s%%", kw)));
+        }
+        
+        if(createdDate != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("createdDate"), createdDate));
+        }
+        
+        query = query.where(predicates.toArray(new Predicate[] {}));
+
+        Query q = session.createQuery(query);
+        int max = 12;
+        q.setMaxResults(max);
+        q.setFirstResult((page-1)*max);
+        return q.getResultList();
+    }
+
+    @Override
+    public long countPrescription(String kw, Date createdDate) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        Root root = query.from(Prescription.class);
+        query = query.select(builder.count(root.get("id")));
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (!kw.isEmpty() && kw != null) {
+            Root<Appointment> aRoot = query.from(Appointment.class);
+            predicates.add(builder.equal(root.get("appointment"), aRoot.get("id")));
+            Root<Patient> pRoot = query.from(Patient.class);
+            predicates.add(builder.equal(aRoot.get("patient"), pRoot.get("id")));
+            Root<User> uRoot = query.from(User.class);
+            predicates.add(builder.equal(pRoot.get("user"), uRoot.get("id")));
+            predicates.add(builder.like(uRoot.get("firstName").as(String.class),
+                    String.format("%%%s%%", kw)));
+        }
+        
+        if(createdDate != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("createdDate"), createdDate));
+        }
+        
+        query = query.where(predicates.toArray(new Predicate[] {}));
+        Query q = session.createQuery(query);
+        return Long.parseLong(q.getSingleResult().toString());
     }
 
     

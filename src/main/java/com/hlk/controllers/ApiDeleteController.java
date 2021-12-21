@@ -5,6 +5,8 @@
  */
 package com.hlk.controllers;
 
+import com.hlk.service.AppointmentService;
+import com.hlk.service.MedicineService;
 import com.hlk.service.SickService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +28,27 @@ public class ApiDeleteController {
     @Autowired
     private SickService sickService;
     
+    @Autowired
+    private AppointmentService appointmentService;
+    
+    @Autowired
+    private MedicineService medicineService;
+    
     @DeleteMapping("/sick/{sickId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleleSick(@PathVariable(name = "sickId") int sickId) {
         this.sickService.deleteSick(sickId);
+    }
+    
+    @DeleteMapping("/appointment/{appId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleleAppointment(@PathVariable(name = "appId") int appId) {
+        this.appointmentService.deleteAppointment(appId);
+    }
+    
+    @DeleteMapping("/medicine/{medicineId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleleMedicine(@PathVariable(name = "medicineId") int medicineId) {
+        this.medicineService.deleteMedicine(medicineId);
     }
 }

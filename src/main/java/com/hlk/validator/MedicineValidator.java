@@ -20,7 +20,7 @@ public class MedicineValidator implements Validator{
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Medicine.class.isAssignableFrom(clazz);
+        return Medicine.class.isAssignableFrom(Medicine.class);
     }
 
     @Override

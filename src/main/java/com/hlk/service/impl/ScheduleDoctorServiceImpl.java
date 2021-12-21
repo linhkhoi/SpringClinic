@@ -8,6 +8,7 @@ package com.hlk.service.impl;
 import com.hlk.model.ScheduleDoctor;
 import com.hlk.repository.ScheduleDoctorRepository;
 import com.hlk.service.ScheduleDoctorService;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,21 @@ public class ScheduleDoctorServiceImpl implements ScheduleDoctorService{
     @Override
     public boolean addOrUpdateScheduleDoctor(ScheduleDoctor scheduleDoctor) {
         return this.doctorRepository.addOrUpdateScheduleDoctor(scheduleDoctor);
+    }
+
+    @Override
+    public List<ScheduleDoctor> getScheduleDoctorByDoctor(int id) {
+        return this.doctorRepository.getScheduleDoctorByDoctor(id);
+    }
+
+    @Override
+    public List<ScheduleDoctor> getScheduleDoctorByDoctor(int id, Date fromDate, Date toDate, int page) {
+        return this.doctorRepository.getScheduleDoctorByDoctor(id, fromDate, toDate, page);
+    }
+
+    @Override
+    public long countSchedule(int id, Date fromDate, Date toDate) {
+        return this.doctorRepository.countSchedule(id, fromDate, toDate);
     }
     
 }

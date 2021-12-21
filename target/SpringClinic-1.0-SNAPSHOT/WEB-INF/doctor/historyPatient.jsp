@@ -27,6 +27,28 @@
 </form>  
       </div>
   </div>
+        
+   <ul class="pagination">
+            <c:forEach begin="1" end="${Math.ceil(count/12)}" var="i">
+                <c:if test = "${page == i}">
+                    <c:if test="${param.kw != ''}">
+                         <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/doctor/history-patient/"/>?kw=${param.kw}&page=${i}">${i}</a></li>
+                    </c:if>
+                    <c:if test="${param.kw == ''}">
+                        <li class="page-item active"><a class="page-link mx-0" href="<c:url value="/doctor/history-patient/"/>?page=${i}">${i}</a></li>
+                    </c:if>
+                   
+                </c:if>
+                <c:if test = "${page != i}">
+                    <c:if test="${param.kw != ''}">
+                         <li class="page-item"><a class="page-link mx-0" href="<c:url value="/doctor/history-patient/"/>?kw=${param.kw}&page=${i}">${i}</a></li>
+                    </c:if>
+                    <c:if test="${param.kw == ''}">
+                        <li class="page-item"><a class="page-link mx-0" href="<c:url value="/doctor/history-patient/"/>?page=${i}">${i}</a></li>
+                    </c:if>
+                </c:if>
+            </c:forEach>
+        </ul>
 <table class="table align-middle">
   <thead>
     <tr>
@@ -34,6 +56,7 @@
       <th scope="col" class="col-md-auto"><spring:message code="lable.firstName" /></th>
       <th scope="col" class="col-md-auto"><spring:message code="lable.lastName" /></th>
       <th scope="col" class="col-md-auto"><spring:message code="patient.job" /></th>
+      <th scope="col" class="col-md-2"></th>
       <th scope="col" class="col-md-2"></th>
       <th scope="col" class="col-md-2"></th>
     </tr>
@@ -46,10 +69,13 @@
       <td>${d.user.lastName}</td>
       <td>${d.job}</td>
       <td class="mx-0 px-0">
-        <a href="<c:url value="/doctor/medical-patient/?patientId=${d.id}" />" class="btn btn-info btn-sm px-3"><spring:message code="label.seeMedical" /></a>
+        <a href="<c:url value="/doctor/medical-patient/${d.id}/" />" class="btn btn-info btn-sm px-3"><spring:message code="label.seeMedical" /></a>
       </td>
       <td class="mx-0 px-0">
-        <a href="<c:url value="/doctor/history-patient-detail/?patientId=${d.id}" />" class="btn btn-success btn-sm px-3"><spring:message code="label.seeHistory" /></a>
+        <a href="<c:url value="/doctor/history-patient-detail/${d.id}/" />" class="btn btn-success btn-sm px-3"><spring:message code="label.seeAppoint" /></a>
+      </td>
+      <td class="mx-0 px-0">
+        <a href="<c:url value="/doctor/list-appointment/${d.id}/" />" class="btn btn-primary btn-sm px-3"><spring:message code="label.seeHistory" /></a>
       </td>
     </tr>
       </c:forEach>

@@ -5,10 +5,15 @@
  */
 package com.hlk.repository.impl;
 
+import com.hlk.model.Appointment;
 import com.hlk.model.Order;
+import com.hlk.model.Patient;
+import com.hlk.model.Prescription;
+import com.hlk.model.User;
 import com.hlk.repository.OrderRepository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,5 +171,79 @@ public class OrderRepositoryImpl implements OrderRepository {
         return query.getResultList();
 
     }
+
+    @Override
+    public List<Order> getOrders(String kw, Date fromDate, Date toDate, int page) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Order> query = builder.createQuery(Order.class);
+        Root root = query.from(Order.class);
+        query = query.select(root);
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (!kw.isEmpty() && kw != null) {
+            Root<Prescription> prRoot = query.from(Prescription.class);
+            predicates.add(builder.equal(root.get("prescription"), prRoot.get("id")));
+            Root<Appointment> aRoot = query.from(Appointment.class);
+            predicates.add(builder.equal(prRoot.get("appointment"), aRoot.get("id")));
+            Root<Patient> pRoot = query.from(Patient.class);
+            predicates.add(builder.equal(aRoot.get("patient"), pRoot.get("id")));
+            Root<User> uRoot = query.from(User.class);
+            predicates.add(builder.equal(pRoot.get("user"), uRoot.get("id")));
+            predicates.add(builder.like(uRoot.get("firstName").as(String.class),
+                    String.format("%%%s%%", kw)));
+        }
+        
+        if(fromDate != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("createdDate"), fromDate));
+        }
+        
+        if(toDate != null){
+            predicates.add(builder.lessThanOrEqualTo(root.get("createdDate"), toDate));
+        }
+        
+        query = query.where(predicates.toArray(new Predicate[] {}));
+        Query q = session.createQuery(query);
+        int max = 12;
+        q.setMaxResults(max);
+        q.setFirstResult((page-1)*max);
+        return q.getResultList();
+    }
+
+    @Override
+    public long countOrder(String kw,Date fromDate, Date toDate) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        Root root = query.from(Order.class);
+        query = query.select(builder.count(root.get("id")));
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (!kw.isEmpty() && kw != null) {
+            Root<Prescription> prRoot = query.from(Prescription.class);
+            predicates.add(builder.equal(root.get("prescription"), prRoot.get("id")));
+            Root<Appointment> aRoot = query.from(Appointment.class);
+            predicates.add(builder.equal(prRoot.get("appointment"), aRoot.get("id")));
+            Root<Patient> pRoot = query.from(Patient.class);
+            predicates.add(builder.equal(aRoot.get("patient"), pRoot.get("id")));
+            Root<User> uRoot = query.from(User.class);
+            predicates.add(builder.equal(pRoot.get("user"), uRoot.get("id")));
+            predicates.add(builder.like(uRoot.get("firstName").as(String.class),
+                    String.format("%%%s%%", kw)));
+        }
+        
+        if(fromDate != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("createdDate"), fromDate));
+        }
+        
+        if(toDate != null){
+            predicates.add(builder.lessThanOrEqualTo(root.get("createdDate"), toDate));
+        }
+        
+        query = query.where(predicates.toArray(new Predicate[] {}));
+        Query q = session.createQuery(query);
+        return Long.parseLong(q.getSingleResult().toString());
+    }
+
 
 }
